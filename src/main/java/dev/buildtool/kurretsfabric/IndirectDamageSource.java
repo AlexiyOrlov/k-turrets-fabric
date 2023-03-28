@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class IndirectDamageSource extends EntityDamageSource {
     private Entity owner;
-
     public IndirectDamageSource(String name, Entity source, Entity owner) {
         super(name, source);
     }
