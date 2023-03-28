@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ada",
+    "sfs",
+    "sfs"
+  ],
+  "key": {
+    "a": {
+      "item": "k_turrets:explosive_powder"
+    },
+    "d": {
+      "item": "minecraft:dispenser"
+    },
+    "s": {
+      "tag": "forge:ingots/titanium"
+    },
+    "f": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "k_turrets:firecharge_drone_item"
+  }
+}

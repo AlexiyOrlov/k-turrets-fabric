@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bdb",
+    "sss",
+    "sss"
+  ],
+  "key": {
+    "d": {
+      "item": "minecraft:dispenser"
+    },
+    "b": {
+      "item": "minecraft:cobblestone"
+    },
+    "s": {
+      "tag": "forge:ingots/titanium"
+    }
+  },
+  "result": {
+    "item": "k_turrets:cobble_turret_item"
+  }
+}
