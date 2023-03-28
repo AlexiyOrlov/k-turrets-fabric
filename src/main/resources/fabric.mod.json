@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "k-urrets-fabric",
+  "version": "${version}",
+
+  "name": "k_turrets_fabric",
+  "description": "Adds configurable turrets and combat drones",
+  "authors": ["Alexiy"],
+  "contact": {
+    "repo": ""
+  },
+
+  "license": "GPL-3.0",
+  "icon": "assets/k_turrets/k-turrets.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "dev.buildtool.kurretsfabric.client.KTurretsClient"
+    ],
+    "main": [
+      "dev.buildtool.kurretsfabric.KTurrets"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19"
+  }
+}
