@@ -2,9 +2,12 @@ package dev.buildtool.kurretsfabric;
 
 import dev.buildtool.satako.DefaultInventory;
 import dev.buildtool.satako.UniqueList;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -24,19 +27,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.scoreboard.AbstractTeam;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 
 public abstract class Turret extends MobEntity implements RangedAttackMob, ExtendedScreenHandlerFactory, Inventory {
@@ -367,5 +367,87 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
     @Override
     public boolean isInsideWall() {
         return false;
+    }
+
+    protected boolean canUse(PlayerEntity playerEntity) {
+        return getOwner().isEmpty() || getOwner().get().equals(playerEntity.getUuid());
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return canUse(player);
+    }
+
+    @Override
+    public Iterable<ItemStack> getArmorItems() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public ItemStack getEquippedStack(EquipmentSlot slot) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public void setStackInHand(Hand hand, ItemStack stack) {
+
+    }
+
+    @Override
+    public void equipStack(EquipmentSlot slot, ItemStack stack) {
+
+    }
+
+    @Override
+    public Arm getMainArm() {
+        return Arm.RIGHT;
+    }
+
+    protected double getRange() {
+        return getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE);
+    }
+
+    @Environment(EnvType.CLIENT)
+    private void openConfigurationScreen() {
+
+    }
+
+    @Override
+    protected ActionResult interactMob(PlayerEntity player, Hand hand) {
+        if (canUse(player) && !player.isSneaking()) {
+            if (player instanceof ServerPlayerEntity)
+                player.openHandledScreen(this);
+            return ActionResult.SUCCESS;
+        }
+
+        ItemStack itemStack = player.getStackInHand(hand);
+        if (getHealth() < getMaxHealth() && itemStack.streamTags().anyMatch(itemTagKey -> itemTagKey.id().equals(KTurrets.titaniumIngots))) {
+            heal(getMaxHealth() / 6);
+            itemStack.decrement(1);
+            return ActionResult.SUCCESS;
+        }
+        if (canUse(player)) {
+            if (world.isClient)
+                openConfigurationScreen();
+            if (player.getScoreboardTeam() != null)
+                setAutomaticTeam(player.getScoreboardTeam().getName());
+            else setAutomaticTeam("");
+            if (getOwner().isEmpty()) {
+                setOwnerName(player.getName().getString());
+            }
+            return ActionResult.SUCCESS;
+        } else if (world.isClient) {
+            if (getOwner().isEmpty()) {
+                player.sendMessage(Text.translatable("k_turrets.turret.not.yours"), true);
+            } else
+                player.sendMessage(Text.translatable("k_turrets.belongs.to").append(" ").append(player.getName()), true);
+
+        }
+        return ActionResult.PASS;
+    }
+
+    @Override
+    public void markDirty() {
+
     }
 }

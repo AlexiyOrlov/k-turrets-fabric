@@ -1,0 +1,22 @@
+{
+  "bullet_shoot": {
+    "sounds": [
+      "k_turrets:short_shoot"
+    ]
+  },
+  "gauss_shoot": {
+    "sounds": [
+      "k_turrets:bzzz"
+    ]
+  },
+  "cobble_shoot": {
+    "sounds": [
+      "k_turrets:cobble_shoot"
+    ]
+  },
+  "drone_fly": {
+    "sounds": [
+      "k_turrets:fan"
+    ]
+  }
+}

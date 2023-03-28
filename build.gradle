@@ -8,6 +8,9 @@ group = project.maven_group
 
 repositories {
     mavenLocal()
+    maven {
+        url = "https://api.modrinth.com/maven"
+    }
 }
 
 dependencies {
@@ -16,9 +19,10 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-        // Fabric API. This is technically optional, but you probably want it anyway.
+    // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation('dev.buildtool:satako-fabric:1.0.0-1.19')
+    modImplementation('dev.buildtool:satako-fabric:1.0.1-1.19')
+    modImplementation(include("maven.modrinth:midnightlib:${project.midnightlib_version}"))
 }
 
 processResources {
@@ -75,4 +79,7 @@ publishing {
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
     }
+}
+loom {
+    accessWidenerPath = file('src/main/resources/k_turrets.accesswidener')
 }
