@@ -1,10 +1,12 @@
 package dev.buildtool.kurretsfabric;
 
+import dev.buildtool.kurretsfabric.client.screens.TurretOptionsScreen;
 import dev.buildtool.satako.DefaultInventory;
 import dev.buildtool.satako.UniqueList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -346,7 +348,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         nbtCompound.putString("Ignored player#" + nbtCompound.getSize(), name);
     }
 
-    public void removePlayerFromException(String name) {
+    public void removePlayerFromExceptions(String name) {
         NbtCompound compound = getIgnoredPlayers();
         for (String key : compound.getKeys()) {
             String nickname = compound.getString(key);
@@ -409,7 +411,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
 
     @Environment(EnvType.CLIENT)
     private void openConfigurationScreen() {
-
+        MinecraftClient.getInstance().setScreen(new TurretOptionsScreen(this));
     }
 
     @Override
