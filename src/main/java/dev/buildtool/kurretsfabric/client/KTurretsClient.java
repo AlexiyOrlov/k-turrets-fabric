@@ -2,6 +2,7 @@ package dev.buildtool.kurretsfabric.client;
 
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.client.models.ArrowTurretModel;
+import dev.buildtool.kurretsfabric.client.models.BrickModel;
 import dev.buildtool.kurretsfabric.client.models.BrickTurretModel;
 import dev.buildtool.kurretsfabric.client.screens.ArrowTurretScreen;
 import dev.buildtool.kurretsfabric.client.screens.BrickTurretScreen;
@@ -24,5 +25,10 @@ public class KTurretsClient implements ClientModInitializer {
 
         EntityModelLayer brickTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "brick_turret"), "main");
         EntityRendererRegistry.register(KTurrets.BRICK_TURRET, ctx -> new EntityRenderer2<>(ctx, new BrickTurretModel(ctx.getPart(brickTurretLayer)), KTurrets.ID, "brick_turret", 0.4f));
+        EntityModelLayerRegistry.registerModelLayer(brickTurretLayer, BrickTurretModel::getTexturedModelData);
+
+
+        EntityRendererRegistry.register(KTurrets.BRICK, BrickRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(BrickRenderer.LAYER, BrickModel::getTexturedModelData);
     }
 }

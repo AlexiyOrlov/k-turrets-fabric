@@ -38,7 +38,7 @@ import java.util.List;
 
 public class KTurrets implements ModInitializer {
     public static final String ID = "k_turrets";
-    public static final Config CONFIG = Config.createAndLoad();
+    public static final dev.buildtool.kurretsfabric.Config CONFIG = dev.buildtool.kurretsfabric.Config.createAndLoad();
     Item gaussBullet;
     ItemGroup itemGroup = new ItemGroup(0, ID) {
         @Override
