@@ -98,7 +98,11 @@ public class TurretOptionsScreen extends BetterScreen {
         clearTargets = addDrawableChild(new BetterButton(centerX, 60, Text.translatable("k_turrets.clear.list"), button -> {
             targets.clear();
             tempStatusMap.clear();
-            targetButtons.forEach(this.children()::remove);
+            targetButtons.forEach(switchButton -> {
+                drawables.remove(switchButton);
+                children.remove(switchButton);
+                selectables.remove(switchButton);
+            });
         }));
         resetList = addDrawableChild(new BetterButton(clearTargets.x + clearTargets.getElementWidth(), 60, Text.translatable("k_turrets.reset.list"), button -> {
             targets = Registry.ENTITY_TYPE.stream().filter(entityType1 -> !entityType1.getSpawnGroup().isPeaceful()).collect(Collectors.toList());

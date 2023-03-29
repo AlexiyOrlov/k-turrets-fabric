@@ -12,7 +12,7 @@ import net.minecraft.tag.ItemTags;
 
 public class CobbleDroneScreenHandler extends BetterScreenHandler {
     public CobbleDroneScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
-        super(KTurrets.COBBLE_TURRET_HANDLER, syncId);
+        super(KTurrets.COBBLE_DRONE_HANDLER, syncId);
         CobbleDrone cobbleDrone = (CobbleDrone) playerInventory.player.world.getEntityById(buf.readInt());
         int index = 0;
         for (int j = 0; j < 3; j++) {
