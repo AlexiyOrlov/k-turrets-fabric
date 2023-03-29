@@ -1,7 +1,6 @@
 package dev.buildtool.kurretsfabric.turrets;
 
 import dev.buildtool.kurretsfabric.Arrow2;
-import dev.buildtool.kurretsfabric.Configuration;
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.Turret;
 import dev.buildtool.kurretsfabric.screenhandlers.ArrowTurretScreenHandler;
@@ -78,9 +77,9 @@ public class ArrowTurret extends Turret {
                         double d2 = target.getZ() - this.getZ();
                         Arrow2 arrow2 = new Arrow2(world, projectile, this);
                         if (weapon.getItem() instanceof BowItem)
-                            arrow2.setDamage(Configuration.arrowTurretDamage);
+                            arrow2.setDamage(KTurrets.CONFIG.arrowTurretDamage());
                         else if (weapon.getItem() instanceof CrossbowItem) {
-                            arrow2.setDamage(Configuration.arrowTurretDamage * 1.2);
+                            arrow2.setDamage(KTurrets.CONFIG.arrowTurretDamage() * 1.2);
                             arrow2.setShotFromCrossbow(true);
                             int p = EnchantmentHelper.getLevel(Enchantments.PIERCING, weapon);
                             if (p > 0)
@@ -126,7 +125,7 @@ public class ArrowTurret extends Turret {
     @Override
     protected void initGoals() {
         super.initGoals();
-        goalSelector.add(5, new ProjectileAttackGoal(this, 0, Configuration.arrowTurretDelay, (float) getRange()));
+        goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIG.arrowTurretDelay(), (float) getRange()));
         targetSelector.add(5, new AttackGoal(this));
     }
 

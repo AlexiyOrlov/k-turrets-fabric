@@ -1,9 +1,11 @@
 package dev.buildtool.kurretsfabric;
 
 import com.google.common.collect.ImmutableSet;
+import dev.buildtool.kurretsfabric.projectiles.Brick;
 import dev.buildtool.kurretsfabric.screenhandlers.ArrowTurretScreenHandler;
+import dev.buildtool.kurretsfabric.screenhandlers.BrickTurretScreenHandler;
 import dev.buildtool.kurretsfabric.turrets.ArrowTurret;
-import eu.midnightdust.lib.config.MidnightConfig;
+import dev.buildtool.kurretsfabric.turrets.BrickTurret;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -35,7 +37,8 @@ import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier;
 import java.util.List;
 
 public class KTurrets implements ModInitializer {
-    public static String ID = "k_turrets";
+    public static final String ID = "k_turrets";
+    public static final Config CONFIG = Config.createAndLoad();
     Item gaussBullet;
     ItemGroup itemGroup = new ItemGroup(0, ID) {
         @Override
@@ -47,9 +50,11 @@ public class KTurrets implements ModInitializer {
     public static Identifier titaniumIngots = new Identifier("c", "titanium_ingots");
 
     public static EntityType<ArrowTurret> ARROW_TURRET;
+    public static EntityType<Brick> BRICK;
+    public static EntityType<BrickTurret> BRICK_TURRET;
 
     public static ScreenHandlerType<ArrowTurretScreenHandler> ARROW_TURRET_HANDLER;
-
+    public static ScreenHandlerType<BrickTurretScreenHandler> BRICK_TURRET_HANDLER;
     public static Identifier claim = new Identifier(ID, "claim");
     public static Identifier dismantle = new Identifier(ID, "dismantle");
     public static Identifier addPlayerException = new Identifier(ID, "add_exception");
@@ -62,7 +67,6 @@ public class KTurrets implements ModInitializer {
     @SuppressWarnings("UnstableApiUsage")
     @Override
     public void onInitialize() {
-        MidnightConfig.init(ID, Configuration.class);
         Identifier ore1 = new Identifier(ID, "titanium_ore");
         Block titaniumOre = Registry.register(Registry.BLOCK, ore1, new OreBlock(AbstractBlock.Settings.of(Material.STONE).requiresTool().strength(3, 3)));
         Identifier ore2 = new Identifier(ID, "deepslate_titanium_ore");
@@ -79,8 +83,12 @@ public class KTurrets implements ModInitializer {
         ARROW_TURRET = Registry.register(Registry.ENTITY_TYPE, arrowTurret, new FabricEntityType<>((type, world) -> new ArrowTurret(world), SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, 0.8f), 5, 3, false));
         ARROW_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, arrowTurret, new ExtendedScreenHandlerType<>(ArrowTurretScreenHandler::new));
         Registry.register(Registry.ITEM, new Identifier(ID, "arrow_turret_item"), new ContainerItem(ARROW_TURRET, 0x0, 0x0, defaults(), ContainerItem.Unit.TURRET));
-        FabricDefaultAttributeRegistry.register(ARROW_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, Configuration.arrowTurretRange).add(EntityAttributes.GENERIC_ARMOR, Configuration.arrowTurretArmor).add(EntityAttributes.GENERIC_MAX_HEALTH, Configuration.arrowTurretHealth));
+        FabricDefaultAttributeRegistry.register(ARROW_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIG.arrowTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIG.arrowTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIG.arrowTurretHealth()));
 
+        Identifier brickTurret = new Identifier(ID, "brick_turret");
+        BRICK_TURRET = Registry.register(Registry.ENTITY_TYPE, brickTurret, new FabricEntityType<>(BrickTurret::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.7f, 0.7f), 5, 3, false));
+        BRICK_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, brickTurret, new ExtendedScreenHandlerType<>(BrickTurretScreenHandler::new));
+        BRICK = Registry.register(Registry.ENTITY_TYPE, new Identifier(ID, "brick"), new FabricEntityType<>(Brick::new, SpawnGroup.MISC, true, false, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.4f, 0.4f), 5, 1, false));
         Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
         gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
 

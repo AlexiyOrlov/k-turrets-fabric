@@ -11,6 +11,9 @@ repositories {
     maven {
         url = "https://api.modrinth.com/maven"
     }
+    maven {
+        url = 'https://maven.wispforest.io'
+    }
 }
 
 dependencies {
@@ -21,8 +24,9 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation('dev.buildtool:satako-fabric:1.0.7-1.19')
+    modImplementation('dev.buildtool:satako-fabric:1.0.8-1.19')
     modImplementation(include("maven.modrinth:midnightlib:${project.midnightlib_version}"))
+    annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
 }
 
 processResources {
