@@ -1,10 +1,10 @@
-package dev.buildtool.kurretsfabric.turrets;
+package dev.buildtool.kurretsfabric.drones;
 
+import dev.buildtool.kurretsfabric.Drone;
 import dev.buildtool.kurretsfabric.KTurrets;
-import dev.buildtool.kurretsfabric.Turret;
 import dev.buildtool.kurretsfabric.goals.AttackTask;
 import dev.buildtool.kurretsfabric.projectiles.GaussBullet;
-import dev.buildtool.kurretsfabric.screenhandlers.GaussTurretScreenHandler;
+import dev.buildtool.kurretsfabric.screenhandlers.GaussDroneScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
@@ -25,15 +25,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class GaussTurret extends Turret {
-    public DefaultInventory ammo = new DefaultInventory(27) {
+public class GaussDrone extends Drone {
+    public DefaultInventory ammo = new DefaultInventory(18) {
         @Override
         public boolean isValid(int slot, ItemStack stack) {
             return stack.isOf(KTurrets.gaussBullet);
         }
     };
 
-    public GaussTurret(EntityType<? extends MobEntity> entityType, World world) {
+    public GaussDrone(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -75,16 +75,9 @@ public class GaussTurret extends Turret {
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
-        byteBuf.writeInt(getId());
-        return new GaussTurretScreenHandler(syncId, inv, byteBuf);
-    }
-
-    @Override
-    protected void initGoals() {
-        super.initGoals();
-        goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIGURATION.gaussTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackTask(this));
+        PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
+        packetByteBuf.writeInt(getId());
+        return new GaussDroneScreenHandler(syncId, inv, packetByteBuf);
     }
 
     @Override
@@ -97,5 +90,12 @@ public class GaussTurret extends Turret {
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         ammo.readFromTag(nbt.getCompound("Ammo"));
+    }
+
+    @Override
+    protected void initGoals() {
+        super.initGoals();
+        goalSelector.add(5, new ProjectileAttackGoal(this, 1, KTurrets.CONFIGURATION.gaussTurretDelay(), (float) getRange()));
+        targetSelector.add(5, new AttackTask(this));
     }
 }

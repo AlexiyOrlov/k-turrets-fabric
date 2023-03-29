@@ -72,6 +72,7 @@ public class KTurrets implements ModInitializer {
     public static EntityType<BulletDrone> BULLET_DRONE;
     public static EntityType<CobbleDrone> COBBLE_DRONE;
     public static EntityType<FireballDrone> FIREBALL_DRONE;
+    public static EntityType<GaussDrone> GAUSS_DRONE;
     public static ScreenHandlerType<ArrowTurretScreenHandler> ARROW_TURRET_HANDLER;
     public static ScreenHandlerType<BrickTurretScreenHandler> BRICK_TURRET_HANDLER;
     public static ScreenHandlerType<BulletDroneScreenHandler> BULLET_DRONE_HANDLER;
@@ -80,9 +81,10 @@ public class KTurrets implements ModInitializer {
     public static ScreenHandlerType<FireballDroneScreenHandler> FIREBALL_DRONE_HANDLER;
     public static ScreenHandlerType<CobbleTurretScreenHandler> COBBLE_TURRET_HANDLER;
     public static ScreenHandlerType<FireChargeTurretScreenHandler> FIRE_CHARGE_TURRET_HANDLER;
-    public static ScreenHandlerType<GaussTurretHandler> GAUSS_TURRET_HANDLER;
+    public static ScreenHandlerType<GaussTurretScreenHandler> GAUSS_TURRET_HANDLER;
     public static ScreenHandlerType<ArrowDroneScreenHandler> ARROW_DRONE_HANDLER;
     public static ScreenHandlerType<BrickDroneScreenHandler> BRICK_DRONE_HANDLER;
+    public static ScreenHandlerType<GaussDroneScreenHandler> GAUSS_DRONE_HANDLER;
     public static Identifier claim = new Identifier(ID, "claim");
     public static Identifier dismantle = new Identifier(ID, "dismantle");
     public static Identifier addPlayerException = new Identifier(ID, "add_exception");
@@ -163,7 +165,7 @@ public class KTurrets implements ModInitializer {
         GAUSS_TURRET = Registry.register(Registry.ENTITY_TYPE, gaussTurret, new FabricEntityType<>(GaussTurret::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.8f, 1), 5, 3, false));
         FabricDefaultAttributeRegistry.register(GAUSS_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.gaussTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.gaussTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.gaussTurretHealth()));
         GAUSS_BULLET = Registry.register(Registry.ENTITY_TYPE, new Identifier(ID, "gauss_bullet"), new FabricEntityType<>(GaussBullet::new, SpawnGroup.MISC, true, false, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.2f, 0.2f), 5, 1, false));
-        GAUSS_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, gaussTurret, new ExtendedScreenHandlerType<>(GaussTurretHandler::new));
+        GAUSS_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, gaussTurret, new ExtendedScreenHandlerType<>(GaussTurretScreenHandler::new));
 
         Identifier arrowDrone = new Identifier(ID, "arrow_drone");
         ARROW_DRONE = Registry.register(Registry.ENTITY_TYPE, arrowDrone, new FabricEntityType<>(ArrowDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
@@ -189,6 +191,11 @@ public class KTurrets implements ModInitializer {
         FIREBALL_DRONE = Registry.register(Registry.ENTITY_TYPE, fireballDrone, new FabricEntityType<>(FireballDrone::new, SpawnGroup.MISC, true, true, true, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
         FIREBALL_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, fireballDrone, new ExtendedScreenHandlerType<>(FireballDroneScreenHandler::new));
         FabricDefaultAttributeRegistry.register(FIREBALL_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.fireChargeTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.fireChargeTurretHealth() - 15)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.fireChargeTurretArmor() - 2)));
+
+        Identifier gaussDrone = new Identifier(ID, "gauss_drone");
+        GAUSS_DRONE = Registry.register(Registry.ENTITY_TYPE, gaussDrone, new FabricEntityType<>(GaussDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
+        GAUSS_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, gaussDrone, new ExtendedScreenHandlerType<>(GaussDroneScreenHandler::new));
+        FabricDefaultAttributeRegistry.register(GAUSS_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.gaussTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.gaussTurretArmor() - 2)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.gaussTurretHealth() - 15)));
     }
 
     private void registerPackets() {

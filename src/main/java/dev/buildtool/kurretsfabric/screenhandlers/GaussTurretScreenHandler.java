@@ -9,8 +9,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 
-public class GaussTurretHandler extends BetterScreenHandler {
-    public GaussTurretHandler(int syncId, PlayerInventory inventory, PacketByteBuf buf) {
+public class GaussTurretScreenHandler extends BetterScreenHandler {
+    public GaussTurretScreenHandler(int syncId, PlayerInventory inventory, PacketByteBuf buf) {
         super(KTurrets.GAUSS_TURRET_HANDLER, syncId);
         GaussTurret gaussTurret = (GaussTurret) inventory.player.world.getEntityById(buf.readInt());
         int ind = 0;
