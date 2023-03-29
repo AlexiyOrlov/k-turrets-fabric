@@ -46,7 +46,7 @@ public class KTurretsClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(firechargeTurretLayer, FirechargeTurretModel::getTexturedModelData);
 
         EntityModelLayer gaussTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "gauss_turret"), "main");
-        EntityRendererRegistry.register(KTurrets.GAUSS_TURRET, ctx -> new EntityRenderer2<>(ctx, new GaussTurretModel(ctx.getPart(gaussTurretLayer)), KTurrets.ID, "gauss_turret", 0));
+        EntityRendererRegistry.register(KTurrets.GAUSS_TURRET, ctx -> new EntityRenderer2<>(ctx, new GaussTurretModel(ctx.getPart(gaussTurretLayer)), KTurrets.ID, "gauss_turret", 0.2f));
         EntityModelLayerRegistry.registerModelLayer(gaussTurretLayer, GaussTurretModel::getTexturedModelData);
 
         EntityModelLayer arrowDroneLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "arrow_drone"), "main");
