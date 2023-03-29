@@ -1,11 +1,13 @@
 {
   "schemaVersion": 1,
-  "id": "k-urrets-fabric",
+  "id": "k_turrets",
   "version": "${version}",
 
-  "name": "k_turrets_fabric",
+  "name": "K-Turrets",
   "description": "Adds configurable turrets and combat drones",
-  "authors": ["Alexiy"],
+  "authors": [
+    "Alexiy"
+  ],
   "contact": {
     "repo": ""
   },
@@ -28,5 +30,8 @@
     "fabric": "*",
     "minecraft": "~1.19"
   },
-  "accessWidener": "k_turrets.accesswidener"
+  "accessWidener": "k_turrets.accesswidener",
+  "mixins": [
+    "mixins.json"
+  ]
 }
