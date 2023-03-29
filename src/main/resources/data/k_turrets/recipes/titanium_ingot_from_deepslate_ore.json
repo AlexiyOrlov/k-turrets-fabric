@@ -3,10 +3,7 @@
   "ingredient": {
     "item": "k_turrets:deepslate_titanium_ore"
   },
-  "result": {
-    "item": "k_turrets:titanium_ingot",
-    "count": 2
-  },
+  "result": "k_turrets:titanium_ingot",
   "experience": 2,
   "cookingtime": 100
 }

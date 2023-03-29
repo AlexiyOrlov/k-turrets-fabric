@@ -24,7 +24,6 @@ public class KTurretsClient implements ClientModInitializer {
         HandledScreens.register(KTurrets.BULLET_DRONE_HANDLER, BulletDroneScreen::new);
         HandledScreens.register(KTurrets.COBBLE_DRONE_HANDLER, CobbleDroneScreen::new);
         HandledScreens.register(KTurrets.FIREBALL_DRONE_HANDLER, FireballDroneScreen::new);
-        HandledScreens.register(KTurrets.GAUSS_TURRET_HANDLER, GaussTurretScreen::new);
 
         EntityModelLayer arrowTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "arrow_turret"), "main");
         EntityRendererRegistry.register(KTurrets.ARROW_TURRET, ctx -> new EntityRenderer2<>(ctx, new ArrowTurretModel(ctx.getPart(arrowTurretLayer)), KTurrets.ID, "arrow_turret2", 0.4f));
@@ -46,7 +45,7 @@ public class KTurretsClient implements ClientModInitializer {
         EntityRendererRegistry.register(KTurrets.FIRE_CHARGE_TURRET, ctx -> new EntityRenderer2<>(ctx, new FirechargeTurretModel(ctx.getPart(firechargeTurretLayer)), KTurrets.ID, "firecharge_turret.png", 0.3f));
         EntityModelLayerRegistry.registerModelLayer(firechargeTurretLayer, FirechargeTurretModel::getTexturedModelData);
 
-        EntityModelLayer gaussTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "gauss_bullet"), "main");
+        EntityModelLayer gaussTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "gauss_turret"), "main");
         EntityRendererRegistry.register(KTurrets.GAUSS_TURRET, ctx -> new EntityRenderer2<>(ctx, new GaussTurretModel(ctx.getPart(gaussTurretLayer)), KTurrets.ID, "gauss_bullet", 0));
         EntityModelLayerRegistry.registerModelLayer(gaussTurretLayer, GaussTurretModel::getTexturedModelData);
 

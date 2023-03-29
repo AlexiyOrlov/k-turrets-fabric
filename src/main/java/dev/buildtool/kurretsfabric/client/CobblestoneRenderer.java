@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 public class CobblestoneRenderer extends EntityRenderer<Cobblestone> {
     private final CobblestoneModel model;
     private final Identifier texture = new Identifier(KTurrets.ID, "texture/entity/cobblestone.png");
-    public static final EntityModelLayer LAYER = new EntityModelLayer(new Identifier(KTurrets.ID, "cobblestone"), "name");
+    public static final EntityModelLayer LAYER = new EntityModelLayer(new Identifier(KTurrets.ID, "cobblestone"), "main");
 
     public CobblestoneRenderer(EntityRendererFactory.Context ctx) {
         super(ctx);

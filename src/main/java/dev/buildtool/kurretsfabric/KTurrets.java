@@ -11,6 +11,7 @@ import dev.buildtool.kurretsfabric.turrets.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
@@ -124,6 +125,7 @@ public class KTurrets implements ModInitializer {
     }
 
     private void registerItems() {
+        Registry.register(Registry.ITEM, new Identifier(ID, "raw_titanium"), new Item(defaults()));
         Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
         gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
         explosivePowder = Registry.register(Registry.ITEM, new Identifier(ID, "explosive_powder"), new Item(defaults()));
@@ -143,7 +145,7 @@ public class KTurrets implements ModInitializer {
     }
 
     private Item.Settings defaults() {
-        return new Item.Settings().group(itemGroup);
+        return new FabricItemSettings().group(itemGroup);
     }
 
     @SuppressWarnings({"SuspiciousNameCombination", "UnstableApiUsage"})
@@ -152,7 +154,6 @@ public class KTurrets implements ModInitializer {
         Identifier arrowTurret = new Identifier(ID, "arrow_turret");
         ARROW_TURRET = Registry.register(Registry.ENTITY_TYPE, arrowTurret, new FabricEntityType<>((type, world) -> new ArrowTurret(world), SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, 0.8f), 5, 3, false));
         ARROW_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, arrowTurret, new ExtendedScreenHandlerType<>(ArrowTurretScreenHandler::new));
-        Registry.register(Registry.ITEM, new Identifier(ID, "arrow_turret_item"), new ContainerItem(ARROW_TURRET, 0x0, 0x0, defaults(), ContainerItem.Unit.TURRET));
         FabricDefaultAttributeRegistry.register(ARROW_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.arrowTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.arrowTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.arrowTurretHealth()));
 
         Identifier brickTurret = new Identifier(ID, "brick_turret");
