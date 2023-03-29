@@ -8,6 +8,10 @@ import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
 import dev.buildtool.kurretsfabric.projectiles.GaussBullet;
 import dev.buildtool.kurretsfabric.screenhandlers.*;
 import dev.buildtool.kurretsfabric.turrets.*;
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -23,6 +27,7 @@ import net.minecraft.block.Material;
 import net.minecraft.block.OreBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -45,7 +50,7 @@ import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier;
 
 import java.util.List;
 
-public class KTurrets implements ModInitializer {
+public class KTurrets implements ModInitializer, EntityComponentInitializer {
     public static final String ID = "k_turrets";
     public static final dev.buildtool.kurretsfabric.Config CONFIGURATION = dev.buildtool.kurretsfabric.Config.createAndLoad();
     public static Item gaussBullet;
@@ -112,6 +117,8 @@ public class KTurrets implements ModInitializer {
     public static Identifier toggleFollow = new Identifier(ID, "toggle_follow");
     public static Identifier targets = new Identifier(ID, "targets");
     public static SoundEvent BULLET_FIRE, GAUSS_BULLET_FIRE, COBBLE_FIRE, DRONE_PROPELLER;
+
+    public static final ComponentKey<UnitLimits> UNIT_LIMITS = ComponentRegistry.getOrCreate(new Identifier(ID, "unit_limits"), UnitLimits.class);
 
     @Override
     public void onInitialize() {
@@ -255,7 +262,10 @@ public class KTurrets implements ModInitializer {
                 itemStack.getOrCreateNbt().put("Contained", turret.writeNbt(new NbtCompound()));
                 itemStack.getNbt().putUuid("UUID", turret.getUuid());
                 player.world.spawnEntity(new ItemEntity(player.world, turret.getX(), turret.getY(), turret.getZ(), itemStack));
-                //TODO unit limits
+                UnitLimits unitLimits = UNIT_LIMITS.get(player);
+                if (turret instanceof Drone)
+                    unitLimits.decreaseDroneCount();
+                else unitLimits.decreaseTurretCount();
             }
         });
         ServerPlayNetworking.registerGlobalReceiver(toggleMobility, (server, player, handler, buf, responseSender) -> {
@@ -293,5 +303,10 @@ public class KTurrets implements ModInitializer {
                 turret.setTargets(buf.readNbt());
             }
         });
+    }
+
+    @Override
+    public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+        registry.registerFor(PlayerEntity.class, UNIT_LIMITS, playerEntity -> new UnitLimits());
     }
 }

@@ -22,6 +22,9 @@
     ],
     "main": [
       "dev.buildtool.kurretsfabric.KTurrets"
+    ],
+    "cardinal-components": [
+      "dev.buildtool.kurretsfabric.KTurrets"
     ]
   },
 
@@ -33,5 +36,10 @@
   "accessWidener": "k_turrets.accesswidener",
   "mixins": [
     "mixins.json"
-  ]
+  ],
+  "custom": {
+    "cardinal-components": [
+      "k_turrets:unit_limits"
+    ]
+  }
 }

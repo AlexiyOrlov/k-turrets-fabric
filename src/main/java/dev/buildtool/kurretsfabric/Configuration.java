@@ -70,4 +70,8 @@ public class Configuration {
     public int gaussTurretRange = 32;
     @RangeConstraint(min = 1, max = 100)
     public int gaussTurretDamage = 12;
+    @RangeConstraint(min = 1, max = 300)
+    public int turretLimitPerPlayer = 50;
+    @RangeConstraint(min = 1, max = 300)
+    public int droneLimitPerPlayer = 30;
 }

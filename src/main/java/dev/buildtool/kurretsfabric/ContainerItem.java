@@ -1,11 +1,14 @@
 package dev.buildtool.kurretsfabric;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.SpawnEggItem;
@@ -43,6 +46,23 @@ public class ContainerItem extends SpawnEggItem {
         if (!(world instanceof ServerWorld)) {
             return ActionResult.SUCCESS;
         }
+
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
+            PlayerEntity player = context.getPlayer();
+            UnitLimits unitLimits = KTurrets.UNIT_LIMITS.get(player);
+            if (unit == Unit.TURRET) {
+                if (unitLimits.getTurretCount() >= KTurrets.CONFIGURATION.turretLimitPerPlayer()) {
+                    player.sendMessage(Text.translatable("k_turrets.reached.turret.limit.of").append(" " + KTurrets.CONFIGURATION.turretLimitPerPlayer()).append(". ").append(Text.translatable("k_turrets.cannot.place.more")));
+                    return ActionResult.CONSUME;
+                } else unitLimits.increaseTurretCount();
+            } else if (unit == Unit.DRONE) {
+                if (unitLimits.getDroneCount() >= KTurrets.CONFIGURATION.droneLimitPerPlayer()) {
+                    player.sendMessage(Text.translatable("k_turrets.reached.drone.limit.of").append(" " + KTurrets.CONFIGURATION.droneLimitPerPlayer()).append(". ").append(Text.translatable("k_turrets.cannot.place.more")));
+                    return ActionResult.CONSUME;
+                } else unitLimits.increaseDroneCount();
+            }
+        }
+
         ItemStack itemStack = context.getStack();
         BlockPos blockPos = context.getBlockPos();
         Direction direction = context.getSide();

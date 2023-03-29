@@ -14,6 +14,10 @@ repositories {
     maven {
         url = 'https://maven.wispforest.io'
     }
+    maven {
+        name = "Ladysnake Mods"
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
 }
 
 dependencies {
@@ -25,8 +29,10 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation('dev.buildtool:satako-fabric:1.0.10-1.19')
-    modImplementation(include("maven.modrinth:midnightlib:${project.midnightlib_version}"))
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-api:5.0.2"
+    // Includes Cardinal Components API as a Jar-in-Jar dependency (optional but recommended)
+    include "dev.onyxstudios.cardinal-components-api:cardinal-components-api:5.0.2"
 }
 
 processResources {
