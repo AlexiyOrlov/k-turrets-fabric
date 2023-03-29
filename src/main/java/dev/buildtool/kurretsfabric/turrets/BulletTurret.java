@@ -2,7 +2,7 @@ package dev.buildtool.kurretsfabric.turrets;
 
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.Turret;
-import dev.buildtool.kurretsfabric.goals.AttackGoal;
+import dev.buildtool.kurretsfabric.goals.AttackTask;
 import dev.buildtool.kurretsfabric.projectiles.Bullet;
 import dev.buildtool.kurretsfabric.screenhandlers.BulletTurretScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
@@ -83,7 +83,7 @@ public class BulletTurret extends Turret {
     protected void initGoals() {
         super.initGoals();
         goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIGURATION.bulletTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackGoal(this));
+        targetSelector.add(5, new AttackTask(this));
     }
 
     @Override

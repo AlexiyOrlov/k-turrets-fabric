@@ -2,7 +2,7 @@ package dev.buildtool.kurretsfabric.drones;
 
 import dev.buildtool.kurretsfabric.Drone;
 import dev.buildtool.kurretsfabric.KTurrets;
-import dev.buildtool.kurretsfabric.goals.AttackGoal;
+import dev.buildtool.kurretsfabric.goals.AttackTask;
 import dev.buildtool.kurretsfabric.projectiles.Bullet;
 import dev.buildtool.kurretsfabric.screenhandlers.BrickTurretScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
@@ -96,6 +96,6 @@ public class BulletDrone extends Drone {
     protected void initGoals() {
         super.initGoals();
         goalSelector.add(5, new ProjectileAttackGoal(this, 1, KTurrets.CONFIGURATION.bulletTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackGoal(this));
+        targetSelector.add(5, new AttackTask(this));
     }
 }

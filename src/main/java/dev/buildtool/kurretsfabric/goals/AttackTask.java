@@ -6,10 +6,10 @@ import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 
-public class AttackGoal extends ActiveTargetGoal<LivingEntity> {
+public class AttackTask extends ActiveTargetGoal<LivingEntity> {
     private final Turret turret;
 
-    public AttackGoal(Turret turret) {
+    public AttackTask(Turret turret) {
         super(turret, LivingEntity.class, 0, true, true, livingEntity -> {
             if (turret.isProtectingFromPlayers() && livingEntity instanceof PlayerEntity)
                 return turret.alienPlayers.test(livingEntity);

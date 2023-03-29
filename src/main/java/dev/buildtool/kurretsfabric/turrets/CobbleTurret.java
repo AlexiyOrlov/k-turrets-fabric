@@ -2,7 +2,7 @@ package dev.buildtool.kurretsfabric.turrets;
 
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.Turret;
-import dev.buildtool.kurretsfabric.goals.AttackGoal;
+import dev.buildtool.kurretsfabric.goals.AttackTask;
 import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
 import dev.buildtool.kurretsfabric.screenhandlers.CobbleTurretScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
@@ -85,7 +85,7 @@ public class CobbleTurret extends Turret {
     protected void initGoals() {
         super.initGoals();
         goalSelector.add(5, new ProjectileAttackGoal((RangedAttackMob) this, 0, KTurrets.CONFIGURATION.cobbleTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackGoal(this));
+        targetSelector.add(5, new AttackTask(this));
     }
 
     @Override

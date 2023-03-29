@@ -3,7 +3,7 @@ package dev.buildtool.kurretsfabric.turrets;
 import dev.buildtool.kurretsfabric.Arrow2;
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.Turret;
-import dev.buildtool.kurretsfabric.goals.AttackGoal;
+import dev.buildtool.kurretsfabric.goals.AttackTask;
 import dev.buildtool.kurretsfabric.screenhandlers.ArrowTurretScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
 import io.netty.buffer.Unpooled;
@@ -126,7 +126,7 @@ public class ArrowTurret extends Turret {
     protected void initGoals() {
         super.initGoals();
         goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIGURATION.arrowTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackGoal(this));
+        targetSelector.add(5, new AttackTask(this));
     }
 
     @Override

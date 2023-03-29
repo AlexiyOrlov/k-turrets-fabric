@@ -1,14 +1,14 @@
-package dev.buildtool.kurretsfabric.turrets;
+package dev.buildtool.kurretsfabric.drones;
 
+import dev.buildtool.kurretsfabric.Drone;
 import dev.buildtool.kurretsfabric.KTurrets;
-import dev.buildtool.kurretsfabric.Turret;
-import dev.buildtool.kurretsfabric.goals.AttackTask;
-import dev.buildtool.kurretsfabric.projectiles.GaussBullet;
-import dev.buildtool.kurretsfabric.screenhandlers.GaussTurretHandler;
+import dev.buildtool.kurretsfabric.projectiles.Fireball;
+import dev.buildtool.kurretsfabric.screenhandlers.FireballDroneScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.ProjectileAttackGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,21 +19,22 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
-public class GaussTurret extends Turret {
-    public DefaultInventory ammo = new DefaultInventory(27) {
+public class FireballDrone extends Drone {
+    public DefaultInventory ammo = new DefaultInventory(18) {
         @Override
         public boolean isValid(int slot, ItemStack stack) {
-            return stack.isOf(KTurrets.gaussBullet);
+            return stack.isOf(KTurrets.explosivePowder);
         }
     };
 
-    public GaussTurret(EntityType<? extends MobEntity> entityType, World world) {
+    public FireballDrone(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -57,14 +58,13 @@ public class GaussTurret extends Turret {
         if (target.isAlive()) {
             for (ItemStack item : ammo.getItems()) {
                 if (!item.isEmpty()) {
-                    double xa = target.getX() - getX();
-                    double ya = target.getEyeY() - getEyeY();
-                    double za = target.getZ() - getZ();
-                    GaussBullet gaussBullet = new GaussBullet(this, xa, ya, za, world);
-                    gaussBullet.setDamage(KTurrets.CONFIGURATION.gaussTurretDamage());
-                    gaussBullet.setPos(getX(), getEyeY(), getZ());
-                    world.spawnEntity(gaussBullet);
-                    world.playSound(null, getBlockPos(), KTurrets.GAUSS_BULLET_FIRE, SoundCategory.NEUTRAL, 1, 1);
+                    double d0 = target.getX() - this.getX();
+                    double d1 = target.getEyeY() - getEyeY();
+                    double d2 = target.getZ() - this.getZ();
+                    Fireball fireball = new Fireball(this, d0, d1, d2);
+                    fireball.setPos(getX(), getEyeY(), getZ());
+                    world.spawnEntity(fireball);
+                    world.playSound(null, getBlockPos(), SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.NEUTRAL, 1, 1);
                     item.decrement(1);
                     break;
                 }
@@ -77,14 +77,7 @@ public class GaussTurret extends Turret {
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
         byteBuf.writeInt(getId());
-        return new GaussTurretHandler(syncId, inv, byteBuf);
-    }
-
-    @Override
-    protected void initGoals() {
-        super.initGoals();
-        goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIGURATION.gaussTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackTask(this));
+        return new FireballDroneScreenHandler(syncId, inv, byteBuf);
     }
 
     @Override
@@ -97,5 +90,28 @@ public class GaussTurret extends Turret {
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         ammo.readFromTag(nbt.getCompound("Ammo"));
+    }
+
+    @Override
+    protected void initGoals() {
+        super.initGoals();
+        goalSelector.add(5, new ProjectileAttackGoal(this, 1, KTurrets.CONFIGURATION.fireChargeTurretDelay(), (float) getRange()));
+        targetSelector.add(5, new ActiveTargetGoal<>(this, LivingEntity.class, 0, true, true, livingEntity -> {
+            if (isProtectingFromPlayers() && livingEntity instanceof PlayerEntity)
+                return alienPlayers.test(livingEntity);
+            else {
+                return !livingEntity.isFireImmune() && decodeTargets(getTargets()).contains(livingEntity.getType());
+            }
+        }) {
+            @Override
+            public boolean canStart() {
+                return isArmed() && super.canStart();
+            }
+
+            @Override
+            public boolean shouldContinue() {
+                return isArmed() && super.shouldContinue();
+            }
+        });
     }
 }
