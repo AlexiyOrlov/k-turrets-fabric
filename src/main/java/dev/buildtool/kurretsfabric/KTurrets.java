@@ -11,6 +11,7 @@ import dev.buildtool.kurretsfabric.turrets.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -49,12 +50,28 @@ public class KTurrets implements ModInitializer {
     public static final dev.buildtool.kurretsfabric.Config CONFIGURATION = dev.buildtool.kurretsfabric.Config.createAndLoad();
     public static Item gaussBullet;
     public static Item explosivePowder;
-    ItemGroup itemGroup = new ItemGroup(0, ID) {
-        @Override
-        public ItemStack createIcon() {
-            return new ItemStack(gaussBullet);
-        }
-    };
+
+    static Item rawTitanium, titaniumIngot, arrowTurret, brickTurret, bulletTurret,
+            cobbleTurret, fireballTurret, gaussTurret, arrowDrone, brickDrone, bulletDrone,
+            cobbleDrone, fireballDrone, gaussDrone;
+    ItemGroup itemGroup = FabricItemGroupBuilder.create(new Identifier(ID, "everything")).appendItems(itemStacks -> {
+        itemStacks.add(new ItemStack(rawTitanium));
+        itemStacks.add(new ItemStack(titaniumIngot));
+        itemStacks.add(new ItemStack(cobbleTurret));
+        itemStacks.add(new ItemStack(arrowTurret));
+        itemStacks.add(new ItemStack(fireballTurret));
+        itemStacks.add(new ItemStack(bulletTurret));
+        itemStacks.add(new ItemStack(brickTurret));
+        itemStacks.add(new ItemStack(gaussTurret));
+        itemStacks.add(new ItemStack(cobbleDrone));
+        itemStacks.add(new ItemStack(arrowDrone));
+        itemStacks.add(new ItemStack(fireballDrone));
+        itemStacks.add(new ItemStack(bulletDrone));
+        itemStacks.add(new ItemStack(brickDrone));
+        itemStacks.add(new ItemStack(gaussDrone));
+        itemStacks.add(new ItemStack(gaussBullet));
+        itemStacks.add(new ItemStack(explosivePowder));
+    }).icon(() -> new ItemStack(gaussBullet)).build();
 
     public static Identifier titaniumIngots = new Identifier("c", "titanium_ingots");
 
@@ -125,23 +142,23 @@ public class KTurrets implements ModInitializer {
     }
 
     private void registerItems() {
-        Registry.register(Registry.ITEM, new Identifier(ID, "raw_titanium"), new Item(defaults()));
-        Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
+        rawTitanium = Registry.register(Registry.ITEM, new Identifier(ID, "raw_titanium"), new Item(defaults()));
+        titaniumIngot = Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
         gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
         explosivePowder = Registry.register(Registry.ITEM, new Identifier(ID, "explosive_powder"), new Item(defaults()));
 
-        Registry.register(Registry.ITEM, new Identifier(ID, "arrow_turret_item"), new ContainerItem(ARROW_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
-        Registry.register(Registry.ITEM, new Identifier(ID, "arrow_drone_item"), new ContainerItem(ARROW_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
-        Registry.register(Registry.ITEM, new Identifier(ID, "brick_turret_item"), new ContainerItem(BRICK_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
-        Registry.register(Registry.ITEM, new Identifier(ID, "brick_drone_item"), new ContainerItem(BRICK_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
-        Registry.register(Registry.ITEM, new Identifier(ID, "bullet_turret_item"), new ContainerItem(BULLET_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
-        Registry.register(Registry.ITEM, new Identifier(ID, "bullet_drone_item"), new ContainerItem(BULLET_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
-        Registry.register(Registry.ITEM, new Identifier(ID, "cobble_turret_item"), new ContainerItem(COBBLE_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
-        Registry.register(Registry.ITEM, new Identifier(ID, "cobble_drone_item"), new ContainerItem(COBBLE_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
-        Registry.register(Registry.ITEM, new Identifier(ID, "firecharge_turret_item"), new ContainerItem(FIRE_CHARGE_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
-        Registry.register(Registry.ITEM, new Identifier(ID, "firecharge_drone_item"), new ContainerItem(FIREBALL_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
-        Registry.register(Registry.ITEM, new Identifier(ID, "gauss_turret_item"), new ContainerItem(GAUSS_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
-        Registry.register(Registry.ITEM, new Identifier(ID, "gauss_drone_item"), new ContainerItem(GAUSS_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        arrowTurret = Registry.register(Registry.ITEM, new Identifier(ID, "arrow_turret_item"), new ContainerItem(ARROW_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        arrowDrone = Registry.register(Registry.ITEM, new Identifier(ID, "arrow_drone_item"), new ContainerItem(ARROW_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        brickTurret = Registry.register(Registry.ITEM, new Identifier(ID, "brick_turret_item"), new ContainerItem(BRICK_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        brickDrone = Registry.register(Registry.ITEM, new Identifier(ID, "brick_drone_item"), new ContainerItem(BRICK_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        bulletTurret = Registry.register(Registry.ITEM, new Identifier(ID, "bullet_turret_item"), new ContainerItem(BULLET_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        bulletDrone = Registry.register(Registry.ITEM, new Identifier(ID, "bullet_drone_item"), new ContainerItem(BULLET_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        cobbleTurret = Registry.register(Registry.ITEM, new Identifier(ID, "cobble_turret_item"), new ContainerItem(COBBLE_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        cobbleDrone = Registry.register(Registry.ITEM, new Identifier(ID, "cobble_drone_item"), new ContainerItem(COBBLE_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        fireballTurret = Registry.register(Registry.ITEM, new Identifier(ID, "firecharge_turret_item"), new ContainerItem(FIRE_CHARGE_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        fireballDrone = Registry.register(Registry.ITEM, new Identifier(ID, "firecharge_drone_item"), new ContainerItem(FIREBALL_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        gaussTurret = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_turret_item"), new ContainerItem(GAUSS_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        gaussDrone = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_drone_item"), new ContainerItem(GAUSS_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
     }
 
     private Item.Settings defaults() {
@@ -174,7 +191,7 @@ public class KTurrets implements ModInitializer {
         COBBLE_TURRET = Registry.register(Registry.ENTITY_TYPE, cobbleTurret, new FabricEntityType<>(CobbleTurret::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.5f, 0.7f), 5, 3, false));
         FabricDefaultAttributeRegistry.register(COBBLE_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.cobbleTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.cobbleTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.cobbleTurretHealth()));
 
-        Identifier firechargeTurret = new Identifier(ID, "firecharge_turret");
+        Identifier firechargeTurret = new Identifier(ID, "fireball_turret");
         FIRE_CHARGE_TURRET = Registry.register(Registry.ENTITY_TYPE, firechargeTurret, new FabricEntityType<>(FirechargeTurret::new, SpawnGroup.MISC, true, true, true, false, ImmutableSet.of(), EntityDimensions.fixed(0.8f, 0.7f), 5, 3, false));
         FabricDefaultAttributeRegistry.register(FIRE_CHARGE_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.fireChargeTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.fireChargeTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.fireChargeTurretHealth()));
         FIRE_CHARGE_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, firechargeTurret, new ExtendedScreenHandlerType<>(FireChargeTurretScreenHandler::new));
@@ -244,7 +261,7 @@ public class KTurrets implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(toggleMobility, (server, player, handler, buf, responseSender) -> {
             Entity entity = player.world.getEntityById(buf.readInt());
             if (entity instanceof Turret turret) {
-                turret.setPushable(buf.readBoolean());
+                turret.setMobile(buf.readBoolean());
             }
         });
         ServerPlayNetworking.registerGlobalReceiver(togglePlayerProtection, (server, player, handler, buf, responseSender) -> {

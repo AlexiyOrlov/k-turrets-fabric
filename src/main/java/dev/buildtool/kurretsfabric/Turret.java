@@ -74,7 +74,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         return dataTracker.get(PUSHABLE);
     }
 
-    public void setPushable(boolean b) {
+    public void setMobile(boolean b) {
         dataTracker.set(PUSHABLE, b);
     }
 
@@ -172,7 +172,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         setTargets(nbt.getCompound("Targets"));
         if (nbt.contains("Owner"))
             setOwner(nbt.getUuid("Owner"));
-        setPushable(nbt.getBoolean("Pushable"));
+        setMobile(nbt.getBoolean("Pushable"));
         setProtectingFromPlayers(nbt.getBoolean("Protecting from alien players"));
         setAutomaticTeam(nbt.getString("Team"));
         setIgnoredPlayers(nbt.getCompound("Ignored players"));
@@ -254,9 +254,9 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
     }
 
     @Override
-    protected void knockback(LivingEntity target) {
+    public void takeKnockback(double strength, double x, double z) {
         if (isMobile())
-            super.knockback(target);
+            super.takeKnockback(strength, x, z);
     }
 
     @Nullable

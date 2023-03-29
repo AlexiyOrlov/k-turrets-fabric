@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 public class GaussBulletRenderer extends EntityRenderer<GaussBullet> {
     public static final EntityModelLayer LAYER = new EntityModelLayer(new Identifier(KTurrets.ID, "gauss_bullet"), "main");
     private final GaussBulletModel gaussBulletModel;
-    private final Identifier texture = new Identifier(KTurrets.ID, "texture/entity/gauss_bullet.png");
+    private final Identifier texture = new Identifier(KTurrets.ID, "textures/entity/gauss_bullet.png");
 
     public GaussBulletRenderer(EntityRendererFactory.Context ctx) {
         super(ctx);

@@ -15,7 +15,7 @@ public class CobbleDroneScreenHandler extends BetterScreenHandler {
         super(KTurrets.COBBLE_DRONE_HANDLER, syncId);
         CobbleDrone cobbleDrone = (CobbleDrone) playerInventory.player.world.getEntityById(buf.readInt());
         int index = 0;
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 9; k++) {
                 addSlot(new BetterSlot(cobbleDrone.ammo, index++, k * 18, j * 18));
             }

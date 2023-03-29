@@ -1,5 +1,5 @@
 {
-  "itemGroup.k_turrets": "K-Turrets",
+  "itemGroup.k_turrets.everything": "K-Turrets",
 
   "item.k_turrets.arrow_turret_item": "Arrow Turret",
   "item.k_turrets.bullet_turret_item": "Bullet Turret",
@@ -58,7 +58,7 @@
   "death.attack.k_turrets.brick": "%1$s was hit by a brick",
   "death.attack.k_turrets.cobblestone": "%1$s was stoned by cobblestone",
 
-  "entity.k_turrets.fire_charge_turret": "Fireball Turret",
+  "entity.k_turrets.fireball_turret": "Fireball Turret",
   "entity.k_turrets.arrow_turret": "Arrow Turret",
   "entity.k_turrets.bullet_turret": "Bullet Turret",
   "entity.k_turrets.brick_turret": "Brick Turret",
@@ -70,7 +70,7 @@
   "entity.k_turrets.cobble_drone": "Cobble Drone",
   "entity.k_turrets.arrow_drone": "Arrow Drone",
   "entity.k_turrets.gauss_drone": "Gauss Drone",
-  "entity.k_turrets.firecharge_drone": "Fireball Drone",
+  "entity.k_turrets.fireball_drone": "Fireball Drone",
 
   "block.k_turrets.titanium_ore": "Titanium Ore",
   "block.k_turrets.deepslate_titanium_ore": "Deepslate Titanium Ore"

@@ -9,10 +9,11 @@ import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.util.hit.EntityHitResult;
 
 public class Fireball extends SmallFireballEntity {
-    private Turret turret;
+    private final Turret turret;
 
     public Fireball(Turret owner, double velocityX, double velocityY, double velocityZ) {
         super(owner.world, owner, velocityX, velocityY, velocityZ);
+        this.turret = owner;
     }
 
     @Override
@@ -41,5 +42,12 @@ public class Fireball extends SmallFireballEntity {
                     this.applyDamageEffects(livingEntity, entity);
             }
         }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        int movementMultiplier = 50;
+        setVelocity(getVelocity().add(powerX * movementMultiplier, powerY * movementMultiplier, powerZ * movementMultiplier));
     }
 }

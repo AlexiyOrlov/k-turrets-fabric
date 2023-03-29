@@ -14,7 +14,7 @@ public class GaussDroneScreenHandler extends BetterScreenHandler {
         super(KTurrets.GAUSS_DRONE_HANDLER, syncId);
         GaussDrone gaussDrone = (GaussDrone) inventory.player.world.getEntityById(byteBuf.readInt());
         int ind = 0;
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 9; k++) {
                 addSlot(new BetterSlot(gaussDrone.ammo, ind++, k * 18, j * 18));
             }

@@ -110,12 +110,12 @@ public class TurretOptionsScreen extends BetterScreen {
             client.currentScreen.close();
             client.player.closeScreen();
         }));
-        mobilitySwitch = addDrawableChild(new SwitchButton(centerX, 80, Text.translatable("k_turrets.mobile"), Text.translatable("k_turrets.immobile"), turret.isPushable(), button -> {
+        mobilitySwitch = addDrawableChild(new SwitchButton(centerX, 80, Text.translatable("k_turrets.mobile"), Text.translatable("k_turrets.immobile"), turret.isMobile(), button -> {
             PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
             packetByteBuf.writeInt(turret.getId());
-            packetByteBuf.writeBoolean(!turret.isPushable());
+            packetByteBuf.writeBoolean(!turret.isMobile());
             ClientPlayNetworking.send(KTurrets.toggleMobility, packetByteBuf);
-            turret.setPushable(!turret.isPushable());
+            turret.setMobile(!turret.isMobile());
         }));
         protectionFromPlayers = addDrawableChild(new SwitchButton(centerX, 100, Text.translatable("k_turrets.protect.from.players"), Text.translatable("k_turrets.not.protect.from.players"), turret.isProtectingFromPlayers(), button -> {
             PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());

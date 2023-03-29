@@ -14,7 +14,7 @@ public class FireballDroneScreenHandler extends BetterScreenHandler {
         super(KTurrets.FIREBALL_DRONE_HANDLER, syncId);
         FireballDrone fireballDrone = (FireballDrone) inventory.player.world.getEntityById(byteBuf.readInt());
         int index = 0;
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 9; k++) {
                 addSlot(new BetterSlot(fireballDrone.ammo, index++, k * 18, j * 18));
             }
