@@ -69,7 +69,7 @@ public class ArrowTurret extends Turret {
             if (!weapon.isEmpty()) {
                 for (int i = 0; i < ammo.size(); i++) {
                     ItemStack ammo = this.ammo.getStack(i);
-                    if (ammo.getItem() instanceof ArrowItem) {
+                    if (!ammo.isEmpty()) {
                         PersistentProjectileEntity projectile = ProjectileUtil.createArrowProjectile(this, ammo, pullProgress);
                         double d0 = target.getX() - this.getX();
                         double d1 = target.getEyeY() - getEyeY();

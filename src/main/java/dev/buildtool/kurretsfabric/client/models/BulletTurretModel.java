@@ -1,3 +1,5 @@
+package dev.buildtool.kurretsfabric.client.models;
+
 import dev.buildtool.kurretsfabric.turrets.BulletTurret;
 import dev.buildtool.satako.Functions;
 import net.minecraft.client.model.*;

@@ -3,12 +3,15 @@ package dev.buildtool.kurretsfabric;
 import com.google.common.collect.ImmutableSet;
 import dev.buildtool.kurretsfabric.projectiles.Brick;
 import dev.buildtool.kurretsfabric.projectiles.Bullet;
+import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
 import dev.buildtool.kurretsfabric.screenhandlers.ArrowTurretScreenHandler;
 import dev.buildtool.kurretsfabric.screenhandlers.BrickTurretScreenHandler;
 import dev.buildtool.kurretsfabric.screenhandlers.BulletTurretScreenHandler;
+import dev.buildtool.kurretsfabric.screenhandlers.CobbleScreenHandler;
 import dev.buildtool.kurretsfabric.turrets.ArrowTurret;
 import dev.buildtool.kurretsfabric.turrets.BrickTurret;
 import dev.buildtool.kurretsfabric.turrets.BulletTurret;
+import dev.buildtool.kurretsfabric.turrets.CobbleTurret;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -62,9 +65,12 @@ public class KTurrets implements ModInitializer {
     public static EntityType<BrickTurret> BRICK_TURRET;
     public static EntityType<BulletTurret> BULLET_TURRET;
     public static EntityType<Bullet> BULLET;
+    public static EntityType<Cobblestone> COBBLESTONE;
+    public static EntityType<CobbleTurret> COBBLE_TURRET;
     public static ScreenHandlerType<ArrowTurretScreenHandler> ARROW_TURRET_HANDLER;
     public static ScreenHandlerType<BrickTurretScreenHandler> BRICK_TURRET_HANDLER;
     public static ScreenHandlerType<BulletTurretScreenHandler> BULLET_TURRET_HANDLER;
+    public static ScreenHandlerType<CobbleScreenHandler> COBBLE_TURRET_HANDLER;
     public static Identifier claim = new Identifier(ID, "claim");
     public static Identifier dismantle = new Identifier(ID, "dismantle");
     public static Identifier addPlayerException = new Identifier(ID, "add_exception");
@@ -110,6 +116,12 @@ public class KTurrets implements ModInitializer {
         BULLET = Registry.register(Registry.ENTITY_TYPE, new Identifier(ID, "bullet"), new FabricEntityType<>((type, world) -> new Bullet(world), SpawnGroup.MISC, true, false, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.2f, 0.2f), 5, 1, false));
         BULLET_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, bulletTurret, new ExtendedScreenHandlerType<>(BulletTurretScreenHandler::new));
         FabricDefaultAttributeRegistry.register(BULLET_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.bulletTurretRange()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.bulletTurretHealth()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.bulletTurretArmor()));
+
+        Identifier cobbleTurret = new Identifier(ID, "cobble_turret");
+        COBBLE_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, cobbleTurret, new ExtendedScreenHandlerType<>(CobbleScreenHandler::new));
+        COBBLESTONE = Registry.register(Registry.ENTITY_TYPE, new Identifier(ID, "cobblestone"), new FabricEntityType<>(Cobblestone::new, SpawnGroup.MISC, true, false, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.25f, 0.25f), 5, 1, false));
+        COBBLE_TURRET = Registry.register(Registry.ENTITY_TYPE, cobbleTurret, new FabricEntityType<>(CobbleTurret::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.5f, 0.7f), 5, 3, false));
+        FabricDefaultAttributeRegistry.register(COBBLE_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.cobbleTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.cobbleTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.cobbleTurretHealth()));
 
         Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
         gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));

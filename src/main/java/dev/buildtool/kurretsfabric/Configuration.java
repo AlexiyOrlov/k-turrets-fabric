@@ -40,4 +40,14 @@ public class Configuration {
     public int bulletTurretArmor = 3;
     @RangeConstraint(min = 8, max = 100)
     public int bulletTurretRange = 32;
+    @RangeConstraint(min = 10, max = 60)
+    public int cobbleTurretDelay = 20;
+    @RangeConstraint(min = 10, max = 500)
+    public int cobbleTurretHealth = 60;
+    @RangeConstraint(min = 0, max = 100)
+    public int cobbleTurretArmor = 3;
+    @RangeConstraint(min = 8, max = 100)
+    public int cobbleTurretRange = 32;
+    @RangeConstraint(min = 1, max = 100)
+    public int cobbleTurretDamage = 3;
 }

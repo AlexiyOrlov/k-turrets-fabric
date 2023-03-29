@@ -50,7 +50,7 @@ public class BulletTurret extends Turret {
     public void attack(LivingEntity target, float pullProgress) {
         if (target.isAlive()) {
             for (ItemStack item : ammo.getItems()) {
-                if (item.getItem() == Items.GOLD_NUGGET || item.getItem() == Items.IRON_NUGGET) {
+                if (!item.isEmpty()) {
                     double d0 = target.getX() - this.getX();
                     double d1 = target.getEyeY() - getEyeY();
                     double d2 = target.getZ() - this.getZ();
