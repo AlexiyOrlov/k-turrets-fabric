@@ -21,7 +21,7 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation('dev.buildtool:satako-fabric:1.0.6-1.19')
+    modImplementation('dev.buildtool:satako-fabric:1.0.7-1.19')
     modImplementation(include("maven.modrinth:midnightlib:${project.midnightlib_version}"))
 }
 

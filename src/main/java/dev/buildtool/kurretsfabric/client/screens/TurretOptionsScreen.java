@@ -150,7 +150,7 @@ public class TurretOptionsScreen extends BetterScreen {
                 String next = exceptions.get(i);
                 SwitchButton switchButton = new SwitchButton(3, 20 * i + label.getY() + label.getHeight(), Text.literal(next), Text.literal(Formatting.STRIKETHROUGH + next), true, p_93751_ -> {
                     if (p_93751_ instanceof SwitchButton switchButton1) {
-                        tempExceptionStatus.put(next, !switchButton1.state);
+                        tempExceptionStatus.put(next, switchButton1.state);
                     }
                 });
                 switchButton.setScrollable(true, true);
@@ -170,7 +170,7 @@ public class TurretOptionsScreen extends BetterScreen {
             EntityType<?> entityType = targets.get(i);
             SwitchButton switchButton = new SwitchButton(3, 20 * i + label.getY() + label.getHeight(), Text.literal(Registry.ENTITY_TYPE.getId(entityType).toString()), Text.literal(Formatting.STRIKETHROUGH + Registry.ENTITY_TYPE.getId(entityType).toString()), true, p_onPress_1_ -> {
                 if (p_onPress_1_ instanceof SwitchButton switchButton1) {
-                    tempStatusMap.put(entityType, !switchButton1.state);
+                    tempStatusMap.put(entityType, switchButton1.state);
                 }
             });
             switchButton.setScrollable(true, true);
