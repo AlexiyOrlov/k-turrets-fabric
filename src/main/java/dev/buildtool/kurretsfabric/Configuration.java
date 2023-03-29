@@ -17,7 +17,7 @@ public class Configuration {
     @RangeConstraint(min = 10, max = 500)
     public int arrowTurretHealth = 60;
     @RangeConstraint(min = 10, max = 60)
-    public int brickTurretDelay = 10;
+    public int brickTurretDelay = 20;
     @RangeConstraint(min = 1, max = 100)
     public int brickDamage = 9;
     @RangeConstraint(min = 10, max = 500)

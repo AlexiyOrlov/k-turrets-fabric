@@ -4,7 +4,7 @@ import dev.buildtool.kurretsfabric.Drone;
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.goals.AttackTask;
 import dev.buildtool.kurretsfabric.projectiles.Brick;
-import dev.buildtool.kurretsfabric.screenhandlers.BrickTurretScreenHandler;
+import dev.buildtool.kurretsfabric.screenhandlers.BrickDroneScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
@@ -78,7 +78,7 @@ public class BrickDrone extends Drone {
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
         byteBuf.writeInt(getId());
-        return new BrickTurretScreenHandler(syncId, inv, byteBuf);
+        return new BrickDroneScreenHandler(syncId, inv, byteBuf);
     }
 
     @Override
