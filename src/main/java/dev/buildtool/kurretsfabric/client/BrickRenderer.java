@@ -24,7 +24,7 @@ public class BrickRenderer extends EntityRenderer<Brick> {
 
     @Override
     public Identifier getTexture(Brick entity) {
-        return entity.getDamage() == KTurrets.CONFIG.brickDamage() ? texture1 : texture2;
+        return entity.getDamage() == KTurrets.CONFIGURATION.brickDamage() ? texture1 : texture2;
     }
 
     @Override

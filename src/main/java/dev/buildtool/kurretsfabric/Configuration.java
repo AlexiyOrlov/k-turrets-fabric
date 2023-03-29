@@ -3,6 +3,7 @@ package dev.buildtool.kurretsfabric;
 import io.wispforest.owo.config.annotation.Config;
 import io.wispforest.owo.config.annotation.RangeConstraint;
 
+@SuppressWarnings("unused")
 @Config(name = KTurrets.ID, wrapperName = "Config")
 public class Configuration {
     @RangeConstraint(min = 1, max = 100)
@@ -19,6 +20,24 @@ public class Configuration {
     public int brickTurretDelay = 10;
     @RangeConstraint(min = 1, max = 100)
     public int brickDamage = 9;
+    @RangeConstraint(min = 10, max = 500)
+    public int brickTurretHealth = 60;
+    @RangeConstraint(min = 0, max = 100)
+    public int brickTurretArmor = 3;
+    @RangeConstraint(min = 8, max = 100)
+    public int brickTurretRange = 32;
     @RangeConstraint(min = 1, max = 100)
     public int netherBrickDamage = 10;
+    @RangeConstraint(min = 1, max = 100)
+    public int goldBulletDamage = 7;
+    @RangeConstraint(min = 1, max = 100)
+    public int ironBulletDamage = 8;
+    @RangeConstraint(min = 10, max = 60)
+    public int bulletTurretDelay = 20;
+    @RangeConstraint(min = 10, max = 500)
+    public int bulletTurretHealth = 60;
+    @RangeConstraint(min = 0, max = 100)
+    public int bulletTurretArmor = 3;
+    @RangeConstraint(min = 8, max = 100)
+    public int bulletTurretRange = 32;
 }

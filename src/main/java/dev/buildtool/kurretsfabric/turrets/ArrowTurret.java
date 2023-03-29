@@ -76,9 +76,9 @@ public class ArrowTurret extends Turret {
                         double d2 = target.getZ() - this.getZ();
                         Arrow2 arrow2 = new Arrow2(world, projectile, this);
                         if (weapon.getItem() instanceof BowItem)
-                            arrow2.setDamage(KTurrets.CONFIG.arrowTurretDamage());
+                            arrow2.setDamage(KTurrets.CONFIGURATION.arrowTurretDamage());
                         else if (weapon.getItem() instanceof CrossbowItem) {
-                            arrow2.setDamage(KTurrets.CONFIG.arrowTurretDamage() * 1.2);
+                            arrow2.setDamage(KTurrets.CONFIGURATION.arrowTurretDamage() * 1.2);
                             arrow2.setShotFromCrossbow(true);
                             int p = EnchantmentHelper.getLevel(Enchantments.PIERCING, weapon);
                             if (p > 0)
@@ -124,7 +124,7 @@ public class ArrowTurret extends Turret {
     @Override
     protected void initGoals() {
         super.initGoals();
-        goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIG.arrowTurretDelay(), (float) getRange()));
+        goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIGURATION.arrowTurretDelay(), (float) getRange()));
     }
 
     @Override

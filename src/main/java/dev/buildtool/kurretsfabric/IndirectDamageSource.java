@@ -8,9 +8,10 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 public class IndirectDamageSource extends EntityDamageSource {
-    private Entity owner;
+    private final Entity owner;
     public IndirectDamageSource(String name, Entity source, Entity owner) {
         super(name, source);
+        this.owner = owner;
     }
 
     @Override

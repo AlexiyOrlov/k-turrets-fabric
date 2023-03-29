@@ -62,7 +62,7 @@ public class BrickTurret extends Turret {
                     double ya = target.getEyeY() - getEyeY();
                     double za = target.getZ() - getZ();
                     Brick brick = new Brick(this, xa, ya, za, world);
-                    brick.setDamage(item.getItem() == Items.BRICK ? KTurrets.CONFIG.brickDamage() : KTurrets.CONFIG.netherBrickDamage());
+                    brick.setDamage(item.getItem() == Items.BRICK ? KTurrets.CONFIGURATION.brickDamage() : KTurrets.CONFIGURATION.netherBrickDamage());
                     world.spawnEntity(brick);
                     world.playSound(null, getBlockPos(), SoundEvents.ENTITY_WITCH_THROW, SoundCategory.NEUTRAL, 1, 0.5f);
                     item.decrement(1);
@@ -83,7 +83,7 @@ public class BrickTurret extends Turret {
     @Override
     protected void initGoals() {
         super.initGoals();
-        goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIG.brickTurretDelay(), (float) getRange()));
+        goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIGURATION.brickTurretDelay(), (float) getRange()));
     }
 
     @Override
