@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import dev.buildtool.kurretsfabric.projectiles.Brick;
 import dev.buildtool.kurretsfabric.projectiles.Bullet;
 import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
+import dev.buildtool.kurretsfabric.projectiles.GaussBullet;
 import dev.buildtool.kurretsfabric.screenhandlers.*;
 import dev.buildtool.kurretsfabric.turrets.*;
 import net.fabricmc.api.ModInitializer;
@@ -44,7 +45,7 @@ import java.util.List;
 public class KTurrets implements ModInitializer {
     public static final String ID = "k_turrets";
     public static final dev.buildtool.kurretsfabric.Config CONFIGURATION = dev.buildtool.kurretsfabric.Config.createAndLoad();
-    Item gaussBullet;
+    public static Item gaussBullet;
     public static Item explosivePowder;
     ItemGroup itemGroup = new ItemGroup(0, ID) {
         @Override
@@ -63,11 +64,14 @@ public class KTurrets implements ModInitializer {
     public static EntityType<Cobblestone> COBBLESTONE;
     public static EntityType<CobbleTurret> COBBLE_TURRET;
     public static EntityType<FirechargeTurret> FIRE_CHARGE_TURRET;
+    public static EntityType<GaussBullet> GAUSS_BULLET;
+    public static EntityType<GaussTurret> GAUSS_TURRET;
     public static ScreenHandlerType<ArrowTurretScreenHandler> ARROW_TURRET_HANDLER;
     public static ScreenHandlerType<BrickTurretScreenHandler> BRICK_TURRET_HANDLER;
     public static ScreenHandlerType<BulletTurretScreenHandler> BULLET_TURRET_HANDLER;
     public static ScreenHandlerType<CobbleScreenHandler> COBBLE_TURRET_HANDLER;
     public static ScreenHandlerType<FireChargeTurretScreenHandler> FIRE_CHARGE_TURRET_HANDLER;
+    public static ScreenHandlerType<GaussTurretHandler> GAUSS_TURRET_HANDLER;
     public static Identifier claim = new Identifier(ID, "claim");
     public static Identifier dismantle = new Identifier(ID, "dismantle");
     public static Identifier addPlayerException = new Identifier(ID, "add_exception");
@@ -95,6 +99,25 @@ public class KTurrets implements ModInitializer {
         RegistryKey<PlacedFeature> titaniumOreKey = RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(ID, "titanium_ore"));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, titaniumOreKey);
 
+        registerEntities();
+
+        Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
+        gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
+        explosivePowder = Registry.register(Registry.ITEM, new Identifier(ID, "explosive_powder"), new Item(defaults()));
+
+        registerPackets();
+
+        BULLET_FIRE = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "bullet"), new SoundEvent(new Identifier(ID, "bullet_shoot")));
+        GAUSS_BULLET_FIRE = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "gauss_bullet"), new SoundEvent(new Identifier(ID, "gauss_shoot")));
+        COBBLE_FIRE = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "cobble_fire"), new SoundEvent(new Identifier(ID, "cobble_shoot")));
+        DRONE_PROPELLER = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "drone_propeller"), new SoundEvent(new Identifier(ID, "drone_fly")));
+    }
+
+    private Item.Settings defaults() {
+        return new Item.Settings().group(itemGroup);
+    }
+
+    private void registerEntities() {
         float droneWidth = 0.6f;
         Identifier arrowTurret = new Identifier(ID, "arrow_turret");
         ARROW_TURRET = Registry.register(Registry.ENTITY_TYPE, arrowTurret, new FabricEntityType<>((type, world) -> new ArrowTurret(world), SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, 0.8f), 5, 3, false));
@@ -122,23 +145,14 @@ public class KTurrets implements ModInitializer {
 
         Identifier firechargeTurret = new Identifier(ID, "firecharge_turret");
         FIRE_CHARGE_TURRET = Registry.register(Registry.ENTITY_TYPE, firechargeTurret, new FabricEntityType<>(FirechargeTurret::new, SpawnGroup.MISC, true, true, true, false, ImmutableSet.of(), EntityDimensions.fixed(0.8f, 0.7f), 5, 3, false));
-        FabricDefaultAttributeRegistry.register(FIRE_CHARGE_TURRET, Turret.createDefaultAttributes());
+        FabricDefaultAttributeRegistry.register(FIRE_CHARGE_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.fireChargeTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.fireChargeTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.fireChargeTurretHealth()));
         FIRE_CHARGE_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, firechargeTurret, new ExtendedScreenHandlerType<>(FireChargeTurretScreenHandler::new));
 
-        Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
-        gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
-        explosivePowder = Registry.register(Registry.ITEM, new Identifier(ID, "explosive_powder"), new Item(defaults()));
-
-        registerPackets();
-
-        BULLET_FIRE = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "bullet"), new SoundEvent(new Identifier(ID, "bullet_shoot")));
-        GAUSS_BULLET_FIRE = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "gauss_bullet"), new SoundEvent(new Identifier(ID, "gauss_shoot")));
-        COBBLE_FIRE = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "cobble_fire"), new SoundEvent(new Identifier(ID, "cobble_shoot")));
-        DRONE_PROPELLER = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "drone_propeller"), new SoundEvent(new Identifier(ID, "drone_fly")));
-    }
-
-    private Item.Settings defaults() {
-        return new Item.Settings().group(itemGroup);
+        Identifier gaussTurret = new Identifier(ID, "gauss_turret");
+        GAUSS_TURRET = Registry.register(Registry.ENTITY_TYPE, gaussTurret, new FabricEntityType<>(GaussTurret::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.8f, 1), 5, 3, false));
+        FabricDefaultAttributeRegistry.register(GAUSS_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.gaussTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.gaussTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.gaussTurretHealth()));
+        GAUSS_BULLET = Registry.register(Registry.ENTITY_TYPE, new Identifier(ID, "gauss_bullet"), new FabricEntityType<>(GaussBullet::new, SpawnGroup.MISC, true, false, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.2f, 0.2f), 5, 1, false));
+        GAUSS_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, gaussTurret, new ExtendedScreenHandlerType<>(GaussTurretHandler::new));
     }
 
     private void registerPackets() {

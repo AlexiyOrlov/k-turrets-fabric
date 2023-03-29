@@ -60,4 +60,14 @@ public class Configuration {
     public int fireChargeTurretRange = 32;
     @RangeConstraint(min = 1, max = 100)
     public int fireChargeTurretDamage = 6;
+    @RangeConstraint(min = 10, max = 60)
+    public int gaussTurretDelay = 20;
+    @RangeConstraint(min = 10, max = 500)
+    public int gaussTurretHealth = 60;
+    @RangeConstraint(min = 0, max = 100)
+    public int gaussTurretArmor = 3;
+    @RangeConstraint(min = 8, max = 100)
+    public int gaussTurretRange = 32;
+    @RangeConstraint(min = 1, max = 100)
+    public int gaussTurretDamage = 12;
 }
