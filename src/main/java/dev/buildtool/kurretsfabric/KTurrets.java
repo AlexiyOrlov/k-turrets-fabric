@@ -113,9 +113,7 @@ public class KTurrets implements ModInitializer {
 
         registerEntities();
 
-        Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
-        gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
-        explosivePowder = Registry.register(Registry.ITEM, new Identifier(ID, "explosive_powder"), new Item(defaults()));
+        registerItems();
 
         registerPackets();
 
@@ -123,6 +121,25 @@ public class KTurrets implements ModInitializer {
         GAUSS_BULLET_FIRE = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "gauss_bullet"), new SoundEvent(new Identifier(ID, "gauss_shoot")));
         COBBLE_FIRE = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "cobble_fire"), new SoundEvent(new Identifier(ID, "cobble_shoot")));
         DRONE_PROPELLER = Registry.register(Registry.SOUND_EVENT, new Identifier(ID, "drone_propeller"), new SoundEvent(new Identifier(ID, "drone_fly")));
+    }
+
+    private void registerItems() {
+        Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
+        gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
+        explosivePowder = Registry.register(Registry.ITEM, new Identifier(ID, "explosive_powder"), new Item(defaults()));
+
+        Registry.register(Registry.ITEM, new Identifier(ID, "arrow_turret_item"), new ContainerItem(ARROW_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        Registry.register(Registry.ITEM, new Identifier(ID, "arrow_drone_item"), new ContainerItem(ARROW_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        Registry.register(Registry.ITEM, new Identifier(ID, "brick_turret_item"), new ContainerItem(BRICK_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        Registry.register(Registry.ITEM, new Identifier(ID, "brick_drone_item"), new ContainerItem(BRICK_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        Registry.register(Registry.ITEM, new Identifier(ID, "bullet_turret_item"), new ContainerItem(BULLET_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        Registry.register(Registry.ITEM, new Identifier(ID, "bullet_drone_item"), new ContainerItem(BULLET_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        Registry.register(Registry.ITEM, new Identifier(ID, "cobble_turret_item"), new ContainerItem(COBBLE_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        Registry.register(Registry.ITEM, new Identifier(ID, "cobble_drone_item"), new ContainerItem(COBBLE_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        Registry.register(Registry.ITEM, new Identifier(ID, "firecharge_turret_item"), new ContainerItem(FIRE_CHARGE_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        Registry.register(Registry.ITEM, new Identifier(ID, "firecharge_drone_item"), new ContainerItem(FIREBALL_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
+        Registry.register(Registry.ITEM, new Identifier(ID, "gauss_turret_item"), new ContainerItem(GAUSS_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
+        Registry.register(Registry.ITEM, new Identifier(ID, "gauss_drone_item"), new ContainerItem(GAUSS_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));
     }
 
     private Item.Settings defaults() {
