@@ -20,6 +20,7 @@ public class KTurretsClient implements ClientModInitializer {
         HandledScreens.register(KTurrets.FIRE_CHARGE_TURRET_HANDLER, FireballTurretScreen::new);
         HandledScreens.register(KTurrets.ARROW_DRONE_HANDLER, ArrowDroneScreen::new);
         HandledScreens.register(KTurrets.BRICK_DRONE_HANDLER, BrickDroneScreen::new);
+        HandledScreens.register(KTurrets.BULLET_DRONE_HANDLER, BulletDroneScreen::new);
 
         EntityModelLayer arrowTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "arrow_turret"), "main");
         EntityRendererRegistry.register(KTurrets.ARROW_TURRET, ctx -> new EntityRenderer2<>(ctx, new ArrowTurretModel(ctx.getPart(arrowTurretLayer)), KTurrets.ID, "arrow_turret2", 0.4f));
@@ -52,6 +53,10 @@ public class KTurretsClient implements ClientModInitializer {
         EntityModelLayer brickDroneLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "brick_drone"), "main");
         EntityRendererRegistry.register(KTurrets.BRICK_DRONE, ctx -> new EntityRenderer2<>(ctx, new BrickDroneModel(ctx.getPart(brickDroneLayer)), KTurrets.ID, "brick_drone", 0.2f));
         EntityModelLayerRegistry.registerModelLayer(brickDroneLayer, BrickDroneModel::getTexturedModelData);
+
+        EntityModelLayer bulletDroneLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "bullet_drone"), "main");
+        EntityRendererRegistry.register(KTurrets.BULLET_DRONE, ctx -> new EntityRenderer2<>(ctx, new BulletDroneModel(ctx.getPart(bulletDroneLayer)), KTurrets.ID, "bullet_drone", 0.2f));
+        EntityModelLayerRegistry.registerModelLayer(bulletDroneLayer, BulletDroneModel::getTexturedModelData);
 
         EntityRendererRegistry.register(KTurrets.BULLET, BulletRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(BulletRenderer.MODEL_LAYER, BulletModel::getTexturedModelData);
