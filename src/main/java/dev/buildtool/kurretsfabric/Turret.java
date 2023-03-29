@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
-import net.minecraft.entity.ai.goal.AttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -151,7 +150,6 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
     @Override
     protected void initGoals() {
         targetSelector.add(1, new RevengeTask(this));
-        targetSelector.add(5, new AttackGoal(this));
     }
 
     public abstract boolean isArmed();

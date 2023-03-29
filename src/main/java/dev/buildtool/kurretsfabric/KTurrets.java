@@ -4,14 +4,8 @@ import com.google.common.collect.ImmutableSet;
 import dev.buildtool.kurretsfabric.projectiles.Brick;
 import dev.buildtool.kurretsfabric.projectiles.Bullet;
 import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
-import dev.buildtool.kurretsfabric.screenhandlers.ArrowTurretScreenHandler;
-import dev.buildtool.kurretsfabric.screenhandlers.BrickTurretScreenHandler;
-import dev.buildtool.kurretsfabric.screenhandlers.BulletTurretScreenHandler;
-import dev.buildtool.kurretsfabric.screenhandlers.CobbleScreenHandler;
-import dev.buildtool.kurretsfabric.turrets.ArrowTurret;
-import dev.buildtool.kurretsfabric.turrets.BrickTurret;
-import dev.buildtool.kurretsfabric.turrets.BulletTurret;
-import dev.buildtool.kurretsfabric.turrets.CobbleTurret;
+import dev.buildtool.kurretsfabric.screenhandlers.*;
+import dev.buildtool.kurretsfabric.turrets.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -51,6 +45,7 @@ public class KTurrets implements ModInitializer {
     public static final String ID = "k_turrets";
     public static final dev.buildtool.kurretsfabric.Config CONFIGURATION = dev.buildtool.kurretsfabric.Config.createAndLoad();
     Item gaussBullet;
+    public static Item explosivePowder;
     ItemGroup itemGroup = new ItemGroup(0, ID) {
         @Override
         public ItemStack createIcon() {
@@ -67,10 +62,12 @@ public class KTurrets implements ModInitializer {
     public static EntityType<Bullet> BULLET;
     public static EntityType<Cobblestone> COBBLESTONE;
     public static EntityType<CobbleTurret> COBBLE_TURRET;
+    public static EntityType<FirechargeTurret> FIRE_CHARGE_TURRET;
     public static ScreenHandlerType<ArrowTurretScreenHandler> ARROW_TURRET_HANDLER;
     public static ScreenHandlerType<BrickTurretScreenHandler> BRICK_TURRET_HANDLER;
     public static ScreenHandlerType<BulletTurretScreenHandler> BULLET_TURRET_HANDLER;
     public static ScreenHandlerType<CobbleScreenHandler> COBBLE_TURRET_HANDLER;
+    public static ScreenHandlerType<FireChargeTurretScreenHandler> FIRE_CHARGE_TURRET_HANDLER;
     public static Identifier claim = new Identifier(ID, "claim");
     public static Identifier dismantle = new Identifier(ID, "dismantle");
     public static Identifier addPlayerException = new Identifier(ID, "add_exception");
@@ -123,8 +120,14 @@ public class KTurrets implements ModInitializer {
         COBBLE_TURRET = Registry.register(Registry.ENTITY_TYPE, cobbleTurret, new FabricEntityType<>(CobbleTurret::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.5f, 0.7f), 5, 3, false));
         FabricDefaultAttributeRegistry.register(COBBLE_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.cobbleTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.cobbleTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.cobbleTurretHealth()));
 
+        Identifier firechargeTurret = new Identifier(ID, "firecharge_turret");
+        FIRE_CHARGE_TURRET = Registry.register(Registry.ENTITY_TYPE, firechargeTurret, new FabricEntityType<>(FirechargeTurret::new, SpawnGroup.MISC, true, true, true, false, ImmutableSet.of(), EntityDimensions.fixed(0.8f, 0.7f), 5, 3, false));
+        FabricDefaultAttributeRegistry.register(FIRE_CHARGE_TURRET, Turret.createDefaultAttributes());
+        FIRE_CHARGE_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, firechargeTurret, new ExtendedScreenHandlerType<>(FireChargeTurretScreenHandler::new));
+
         Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
         gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
+        explosivePowder = Registry.register(Registry.ITEM, new Identifier(ID, "explosive_powder"), new Item(defaults()));
 
         registerPackets();
 

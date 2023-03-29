@@ -1,5 +1,6 @@
 package dev.buildtool.kurretsfabric.turrets;
 
+import dev.buildtool.kurretsfabric.AttackGoal;
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.Turret;
 import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
@@ -84,6 +85,7 @@ public class CobbleTurret extends Turret {
     protected void initGoals() {
         super.initGoals();
         goalSelector.add(5, new ProjectileAttackGoal((RangedAttackMob) this, 0, KTurrets.CONFIGURATION.cobbleTurretDelay(), (float) getRange()));
+        targetSelector.add(5, new AttackGoal(this));
     }
 
     @Override

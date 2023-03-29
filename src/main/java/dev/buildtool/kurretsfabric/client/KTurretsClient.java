@@ -35,6 +35,10 @@ public class KTurretsClient implements ClientModInitializer {
         EntityRendererRegistry.register(KTurrets.BULLET_TURRET, ctx -> new EntityRenderer2<>(ctx, new BulletTurretModel(ctx.getPart(bulletTurretLayer)), KTurrets.ID, "bullet_turret4", 0.4f));
         EntityModelLayerRegistry.registerModelLayer(bulletTurretLayer, BulletTurretModel::getTexturedModelData);
 
+        EntityModelLayer firechargeTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "firecharge_turret"), "main");
+        EntityRendererRegistry.register(KTurrets.FIRE_CHARGE_TURRET, ctx -> new EntityRenderer2<>(ctx, new FirechargeTurretModel(ctx.getPart(firechargeTurretLayer)), KTurrets.ID, "firecharge_turret.png", 0.3f));
+        EntityModelLayerRegistry.registerModelLayer(firechargeTurretLayer, FirechargeTurretModel::getTexturedModelData);
+
         EntityRendererRegistry.register(KTurrets.BULLET, BulletRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(BulletRenderer.MODEL_LAYER, BulletModel::getTexturedModelData);
 
