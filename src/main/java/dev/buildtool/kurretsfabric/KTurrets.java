@@ -10,6 +10,8 @@ import dev.buildtool.kurretsfabric.turrets.ArrowTurret;
 import dev.buildtool.kurretsfabric.turrets.BrickTurret;
 import dev.buildtool.kurretsfabric.turrets.BulletTurret;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
@@ -33,6 +35,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.YOffset;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
@@ -84,6 +88,9 @@ public class KTurrets implements ModInitializer {
         List<OreFeatureConfig.Target> blockTargets = List.of(OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, titaniumOre.getDefaultState()), OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, deepslateTitaniumOre.getDefaultState()));
         RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> configuredOres = ConfiguredFeatures.register("titanium_ore", Feature.ORE, new OreFeatureConfig(blockTargets, 11));
         PlacedFeatures.register("titanium_ore", configuredOres, List.of(CountPlacementModifier.of(35), HeightRangePlacementModifier.trapezoid(YOffset.getBottom(), YOffset.fixed(384))));
+
+        RegistryKey<PlacedFeature> titaniumOreKey = RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(ID, "titanium_ore"));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, titaniumOreKey);
 
         float droneWidth = 0.6f;
         Identifier arrowTurret = new Identifier(ID, "arrow_turret");
