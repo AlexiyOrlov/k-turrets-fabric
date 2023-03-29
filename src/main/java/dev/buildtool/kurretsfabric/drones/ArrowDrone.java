@@ -3,6 +3,7 @@ package dev.buildtool.kurretsfabric.drones;
 import dev.buildtool.kurretsfabric.Arrow2;
 import dev.buildtool.kurretsfabric.Drone;
 import dev.buildtool.kurretsfabric.KTurrets;
+import dev.buildtool.kurretsfabric.goals.AttackGoal;
 import dev.buildtool.kurretsfabric.screenhandlers.ArrowDroneScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
 import io.netty.buffer.Unpooled;
@@ -10,6 +11,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.ProjectileAttackGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -104,5 +106,12 @@ public class ArrowDrone extends Drone {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(getId());
         return new ArrowDroneScreenHandler(syncId, inv, buf);
+    }
+
+    @Override
+    protected void initGoals() {
+        super.initGoals();
+        goalSelector.add(5, new ProjectileAttackGoal(this, 1, KTurrets.CONFIGURATION.arrowTurretDelay(), (float) getRange()));
+        targetSelector.add(5, new AttackGoal(this));
     }
 }
