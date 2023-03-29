@@ -11,6 +11,7 @@ import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
+import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -27,6 +28,10 @@ public abstract class Drone extends Turret {
 
     public Drone(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
+        setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1);
+        setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, -1);
+        setPathfindingPenalty(PathNodeType.DAMAGE_CACTUS, -1);
+        moveControl = new DroneMovementControl(this, 20, true);
     }
 
     @Override
@@ -118,5 +123,15 @@ public abstract class Drone extends Turret {
 
         }
         updateLimbs(this, this instanceof Flutterer);
+    }
+
+    @Override
+    protected float restoreHealth() {
+        return getMaxHealth() / 4;
+    }
+
+    @Override
+    public boolean isClimbing() {
+        return false;
     }
 }

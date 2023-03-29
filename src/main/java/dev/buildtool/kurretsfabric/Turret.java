@@ -425,7 +425,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
 
         ItemStack itemStack = player.getStackInHand(hand);
         if (getHealth() < getMaxHealth() && itemStack.streamTags().anyMatch(itemTagKey -> itemTagKey.id().equals(KTurrets.titaniumIngots))) {
-            heal(getMaxHealth() / 6);
+            heal(restoreHealth());
             itemStack.decrement(1);
             return ActionResult.SUCCESS;
         }
@@ -441,8 +441,13 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
             return ActionResult.SUCCESS;
         } else if (world.isClient) {
             if (getOwner().isEmpty()) {
-                player.sendMessage(Text.translatable("k_turrets.turret.not.yours"), true);
-            } else
+                if (this instanceof Drone)
+                    player.sendMessage(Text.translatable("k_turrets.drone.not.yours"), true);
+                else
+                    player.sendMessage(Text.translatable("k_turrets.turret.not.yours"), true);
+            } else if (this instanceof Drone)
+                player.sendMessage(Text.translatable("k-turrets.drone.belongs.to").append(" ").append(player.getName()), true);
+            else
                 player.sendMessage(Text.translatable("k_turrets.turret.belongs.to").append(" ").append(player.getName()), true);
 
         }
@@ -452,5 +457,9 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
     @Override
     public void markDirty() {
 
+    }
+
+    protected float restoreHealth() {
+        return getMaxHealth() / 6;
     }
 }
