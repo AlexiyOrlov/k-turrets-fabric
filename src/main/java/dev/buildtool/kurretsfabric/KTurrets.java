@@ -40,7 +40,7 @@ public class KTurrets implements ModInitializer {
     ItemGroup itemGroup = new ItemGroup(0, ID) {
         @Override
         public ItemStack createIcon() {
-            return null;
+            return new ItemStack(gaussBullet);
         }
     };
 
