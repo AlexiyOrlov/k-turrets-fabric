@@ -2,6 +2,7 @@ package dev.buildtool.kurretsfabric.client;
 
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.client.models.*;
+import dev.buildtool.kurretsfabric.client.screens.ArrowDroneScreen;
 import dev.buildtool.kurretsfabric.client.screens.ArrowTurretScreen;
 import dev.buildtool.kurretsfabric.client.screens.BrickTurretScreen;
 import dev.buildtool.kurretsfabric.client.screens.BulletTurretScreen;
@@ -18,6 +19,7 @@ public class KTurretsClient implements ClientModInitializer {
         HandledScreens.register(KTurrets.ARROW_TURRET_HANDLER, ArrowTurretScreen::new);
         HandledScreens.register(KTurrets.BRICK_TURRET_HANDLER, BrickTurretScreen::new);
         HandledScreens.register(KTurrets.BULLET_TURRET_HANDLER, BulletTurretScreen::new);
+        HandledScreens.register(KTurrets.ARROW_DRONE_HANDLER, ArrowDroneScreen::new);
 
         EntityModelLayer arrowTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "arrow_turret"), "main");
         EntityRendererRegistry.register(KTurrets.ARROW_TURRET, ctx -> new EntityRenderer2<>(ctx, new ArrowTurretModel(ctx.getPart(arrowTurretLayer)), KTurrets.ID, "arrow_turret2", 0.4f));
@@ -42,6 +44,10 @@ public class KTurretsClient implements ClientModInitializer {
         EntityModelLayer gaussTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "gauss_bullet"), "main");
         EntityRendererRegistry.register(KTurrets.GAUSS_TURRET, ctx -> new EntityRenderer2<>(ctx, new GaussTurretModel(ctx.getPart(gaussTurretLayer)), KTurrets.ID, "gauss_bullet", 0));
         EntityModelLayerRegistry.registerModelLayer(gaussTurretLayer, GaussTurretModel::getTexturedModelData);
+
+        EntityModelLayer arrowDroneLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "arrow_drone"), "main");
+        EntityRendererRegistry.register(KTurrets.ARROW_DRONE, ctx -> new EntityRenderer2<>(ctx, new ArrowDroneModel(ctx.getPart(arrowDroneLayer)), KTurrets.ID, "arrow_drone", 0.2f));
+        EntityModelLayerRegistry.registerModelLayer(arrowDroneLayer, ArrowDroneModel::getTexturedModelData);
 
         EntityRendererRegistry.register(KTurrets.BULLET, BulletRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(BulletRenderer.MODEL_LAYER, BulletModel::getTexturedModelData);

@@ -1,6 +1,7 @@
 package dev.buildtool.kurretsfabric;
 
 import com.google.common.collect.ImmutableSet;
+import dev.buildtool.kurretsfabric.drones.ArrowDrone;
 import dev.buildtool.kurretsfabric.projectiles.Brick;
 import dev.buildtool.kurretsfabric.projectiles.Bullet;
 import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
@@ -66,12 +67,14 @@ public class KTurrets implements ModInitializer {
     public static EntityType<FirechargeTurret> FIRE_CHARGE_TURRET;
     public static EntityType<GaussBullet> GAUSS_BULLET;
     public static EntityType<GaussTurret> GAUSS_TURRET;
+    public static EntityType<ArrowDrone> ARROW_DRONE;
     public static ScreenHandlerType<ArrowTurretScreenHandler> ARROW_TURRET_HANDLER;
     public static ScreenHandlerType<BrickTurretScreenHandler> BRICK_TURRET_HANDLER;
     public static ScreenHandlerType<BulletTurretScreenHandler> BULLET_TURRET_HANDLER;
     public static ScreenHandlerType<CobbleScreenHandler> COBBLE_TURRET_HANDLER;
     public static ScreenHandlerType<FireChargeTurretScreenHandler> FIRE_CHARGE_TURRET_HANDLER;
     public static ScreenHandlerType<GaussTurretHandler> GAUSS_TURRET_HANDLER;
+    public static ScreenHandlerType<ArrowDroneScreenHandler> ARROW_DRONE_HANDLER;
     public static Identifier claim = new Identifier(ID, "claim");
     public static Identifier dismantle = new Identifier(ID, "dismantle");
     public static Identifier addPlayerException = new Identifier(ID, "add_exception");
@@ -82,7 +85,6 @@ public class KTurrets implements ModInitializer {
     public static Identifier targets = new Identifier(ID, "targets");
     public static SoundEvent BULLET_FIRE, GAUSS_BULLET_FIRE, COBBLE_FIRE, DRONE_PROPELLER;
 
-    @SuppressWarnings("UnstableApiUsage")
     @Override
     public void onInitialize() {
         Identifier ore1 = new Identifier(ID, "titanium_ore");
@@ -117,6 +119,7 @@ public class KTurrets implements ModInitializer {
         return new Item.Settings().group(itemGroup);
     }
 
+    @SuppressWarnings({"SuspiciousNameCombination", "UnstableApiUsage"})
     private void registerEntities() {
         float droneWidth = 0.6f;
         Identifier arrowTurret = new Identifier(ID, "arrow_turret");
@@ -153,6 +156,11 @@ public class KTurrets implements ModInitializer {
         FabricDefaultAttributeRegistry.register(GAUSS_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.gaussTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.gaussTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.gaussTurretHealth()));
         GAUSS_BULLET = Registry.register(Registry.ENTITY_TYPE, new Identifier(ID, "gauss_bullet"), new FabricEntityType<>(GaussBullet::new, SpawnGroup.MISC, true, false, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.2f, 0.2f), 5, 1, false));
         GAUSS_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, gaussTurret, new ExtendedScreenHandlerType<>(GaussTurretHandler::new));
+
+        Identifier arrowDrone = new Identifier(ID, "arrow_drone");
+        ARROW_DRONE = Registry.register(Registry.ENTITY_TYPE, arrowDrone, new FabricEntityType<>(ArrowDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
+        ARROW_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, arrowDrone, new ExtendedScreenHandlerType<>(ArrowDroneScreenHandler::new));
+        FabricDefaultAttributeRegistry.register(ARROW_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.arrowTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(CONFIGURATION.arrowTurretArmor() - 2, 0)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.arrowTurretHealth() - 15)));
     }
 
     private void registerPackets() {
