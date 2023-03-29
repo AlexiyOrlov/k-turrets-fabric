@@ -138,6 +138,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         for (int i = 0; i < entityTypes.size(); i++) {
             compound.putString("Target#" + i, Registry.ENTITY_TYPE.getId(entityTypes.get(i)).toString());
         }
+        compound.putInt("Count", entityTypes.size());
         dataTracker.startTracking(TARGETS, compound);
         dataTracker.startTracking(PUSHABLE, false);
         dataTracker.startTracking(PROTECTING_FROM_PLAYERS, false);
@@ -442,7 +443,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
             if (getOwner().isEmpty()) {
                 player.sendMessage(Text.translatable("k_turrets.turret.not.yours"), true);
             } else
-                player.sendMessage(Text.translatable("k_turrets.belongs.to").append(" ").append(player.getName()), true);
+                player.sendMessage(Text.translatable("k_turrets.turret.belongs.to").append(" ").append(player.getName()), true);
 
         }
         return ActionResult.PASS;

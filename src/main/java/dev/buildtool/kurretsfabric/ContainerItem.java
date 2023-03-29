@@ -53,7 +53,7 @@ public class ContainerItem extends SpawnEggItem {
         Entity entity = entityType2.spawnFromItemStack((ServerWorld) world, itemStack, context.getPlayer(), blockPos2, SpawnReason.SPAWN_EGG, true, !Objects.equals(blockPos, blockPos2) && direction == Direction.UP);
         if (entity != null) {
             if (itemStack.hasNbt()) {
-                entity.readNbt(itemStack.getNbt().getCompound("Contained"));
+                entity.readNbt(itemStack.getSubNbt("Contained"));
                 entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
             }
             itemStack.decrement(1);
