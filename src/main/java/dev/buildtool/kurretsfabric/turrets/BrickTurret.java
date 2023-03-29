@@ -8,7 +8,6 @@ import dev.buildtool.satako.DefaultInventory;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.AttackGoal;
 import net.minecraft.entity.ai.goal.ProjectileAttackGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -85,7 +84,6 @@ public class BrickTurret extends Turret {
     protected void initGoals() {
         super.initGoals();
         goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIG.brickTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackGoal(this));
     }
 
     @Override

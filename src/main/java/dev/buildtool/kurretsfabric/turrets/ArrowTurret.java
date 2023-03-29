@@ -10,7 +10,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.AttackGoal;
 import net.minecraft.entity.ai.goal.ProjectileAttackGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -126,7 +125,6 @@ public class ArrowTurret extends Turret {
     protected void initGoals() {
         super.initGoals();
         goalSelector.add(5, new ProjectileAttackGoal(this, 0, KTurrets.CONFIG.arrowTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackGoal(this));
     }
 
     @Override
