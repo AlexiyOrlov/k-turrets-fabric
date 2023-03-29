@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.tag.ItemTags;
 
-public class CobbleScreenHandler extends BetterScreenHandler {
-    public CobbleScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf packetByteBuf) {
+public class CobbleTurretScreenHandler extends BetterScreenHandler {
+    public CobbleTurretScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf packetByteBuf) {
         super(KTurrets.COBBLE_TURRET_HANDLER, syncId);
         CobbleTurret cobbleTurret = (CobbleTurret) playerInventory.player.world.getEntityById(packetByteBuf.readInt());
         int index = 0;

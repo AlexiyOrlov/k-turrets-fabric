@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import dev.buildtool.kurretsfabric.drones.ArrowDrone;
 import dev.buildtool.kurretsfabric.drones.BrickDrone;
 import dev.buildtool.kurretsfabric.drones.BulletDrone;
+import dev.buildtool.kurretsfabric.drones.CobbleDrone;
 import dev.buildtool.kurretsfabric.projectiles.Brick;
 import dev.buildtool.kurretsfabric.projectiles.Bullet;
 import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
@@ -72,11 +73,13 @@ public class KTurrets implements ModInitializer {
     public static EntityType<ArrowDrone> ARROW_DRONE;
     public static EntityType<BrickDrone> BRICK_DRONE;
     public static EntityType<BulletDrone> BULLET_DRONE;
+    public static EntityType<CobbleDrone> COBBLE_DRONE;
     public static ScreenHandlerType<ArrowTurretScreenHandler> ARROW_TURRET_HANDLER;
     public static ScreenHandlerType<BrickTurretScreenHandler> BRICK_TURRET_HANDLER;
     public static ScreenHandlerType<BulletDroneScreenHandler> BULLET_DRONE_HANDLER;
+    public static ScreenHandlerType<CobbleDroneScreenHandler> COBBLE_DRONE_HANDLER;
     public static ScreenHandlerType<BulletTurretScreenHandler> BULLET_TURRET_HANDLER;
-    public static ScreenHandlerType<CobbleScreenHandler> COBBLE_TURRET_HANDLER;
+    public static ScreenHandlerType<CobbleTurretScreenHandler> COBBLE_TURRET_HANDLER;
     public static ScreenHandlerType<FireChargeTurretScreenHandler> FIRE_CHARGE_TURRET_HANDLER;
     public static ScreenHandlerType<GaussTurretHandler> GAUSS_TURRET_HANDLER;
     public static ScreenHandlerType<ArrowDroneScreenHandler> ARROW_DRONE_HANDLER;
@@ -147,7 +150,7 @@ public class KTurrets implements ModInitializer {
         FabricDefaultAttributeRegistry.register(BULLET_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.bulletTurretRange()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.bulletTurretHealth()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.bulletTurretArmor()));
 
         Identifier cobbleTurret = new Identifier(ID, "cobble_turret");
-        COBBLE_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, cobbleTurret, new ExtendedScreenHandlerType<>(CobbleScreenHandler::new));
+        COBBLE_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, cobbleTurret, new ExtendedScreenHandlerType<>(CobbleTurretScreenHandler::new));
         COBBLESTONE = Registry.register(Registry.ENTITY_TYPE, new Identifier(ID, "cobblestone"), new FabricEntityType<>(Cobblestone::new, SpawnGroup.MISC, true, false, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.25f, 0.25f), 5, 1, false));
         COBBLE_TURRET = Registry.register(Registry.ENTITY_TYPE, cobbleTurret, new FabricEntityType<>(CobbleTurret::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(0.5f, 0.7f), 5, 3, false));
         FabricDefaultAttributeRegistry.register(COBBLE_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.cobbleTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.cobbleTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.cobbleTurretHealth()));
@@ -177,6 +180,11 @@ public class KTurrets implements ModInitializer {
         BULLET_DRONE = Registry.register(Registry.ENTITY_TYPE, bulletDrone, new FabricEntityType<>(BulletDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
         BULLET_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, bulletDrone, new ExtendedScreenHandlerType<>(BulletDroneScreenHandler::new));
         FabricDefaultAttributeRegistry.register(BULLET_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.bulletTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.bulletTurretHealth() - 15)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.bulletTurretArmor() - 2)));
+
+        Identifier cobbleDrone = new Identifier(ID, "cobble_drone");
+        COBBLE_DRONE = Registry.register(Registry.ENTITY_TYPE, cobbleDrone, new FabricEntityType<>(CobbleDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
+        COBBLE_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, cobbleDrone, new ExtendedScreenHandlerType<>(CobbleDroneScreenHandler::new));
+        FabricDefaultAttributeRegistry.register(COBBLE_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.cobbleTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.cobbleTurretArmor() - 2)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.cobbleTurretHealth() - 15)));
     }
 
     private void registerPackets() {

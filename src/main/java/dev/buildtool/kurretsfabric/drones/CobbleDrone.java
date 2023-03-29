@@ -1,15 +1,14 @@
-package dev.buildtool.kurretsfabric.turrets;
+package dev.buildtool.kurretsfabric.drones;
 
+import dev.buildtool.kurretsfabric.Drone;
 import dev.buildtool.kurretsfabric.KTurrets;
-import dev.buildtool.kurretsfabric.Turret;
 import dev.buildtool.kurretsfabric.goals.AttackGoal;
 import dev.buildtool.kurretsfabric.projectiles.Cobblestone;
-import dev.buildtool.kurretsfabric.screenhandlers.CobbleTurretScreenHandler;
+import dev.buildtool.kurretsfabric.screenhandlers.CobbleDroneScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.ProjectileAttackGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,15 +26,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class CobbleTurret extends Turret {
-    public DefaultInventory ammo = new DefaultInventory(27) {
+public class CobbleDrone extends Drone {
+    public DefaultInventory ammo = new DefaultInventory(18) {
         @Override
         public boolean isValid(int slot, ItemStack stack) {
-            return stack.streamTags().anyMatch(itemTagKey -> ItemTags.STONE_TOOL_MATERIALS.id().equals(itemTagKey.id()));
+            return stack.streamTags().anyMatch(itemTagKey -> itemTagKey.id().equals(ItemTags.STONE_TOOL_MATERIALS.id()));
         }
     };
 
-    public CobbleTurret(EntityType<? extends MobEntity> entityType, World world) {
+    public CobbleDrone(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -76,16 +75,9 @@ public class CobbleTurret extends Turret {
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(getId());
-        return new CobbleTurretScreenHandler(syncId, inv, buf);
-    }
-
-    @Override
-    protected void initGoals() {
-        super.initGoals();
-        goalSelector.add(5, new ProjectileAttackGoal((RangedAttackMob) this, 0, KTurrets.CONFIGURATION.cobbleTurretDelay(), (float) getRange()));
-        targetSelector.add(5, new AttackGoal(this));
+        PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
+        byteBuf.writeInt(getId());
+        return new CobbleDroneScreenHandler(syncId, inv, byteBuf);
     }
 
     @Override
@@ -99,4 +91,12 @@ public class CobbleTurret extends Turret {
         super.readCustomDataFromNbt(nbt);
         ammo.readFromTag(nbt.getCompound("Ammo"));
     }
+
+    @Override
+    protected void initGoals() {
+        super.initGoals();
+        goalSelector.add(5, new ProjectileAttackGoal(this, 1.0, KTurrets.CONFIGURATION.cobbleTurretDelay(), (float) getRange()));
+        targetSelector.add(5, new AttackGoal(this));
+    }
+
 }
