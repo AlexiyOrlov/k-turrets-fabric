@@ -24,6 +24,7 @@ public class KTurretsClient implements ClientModInitializer {
         HandledScreens.register(KTurrets.BULLET_DRONE_HANDLER, BulletDroneScreen::new);
         HandledScreens.register(KTurrets.COBBLE_DRONE_HANDLER, CobbleDroneScreen::new);
         HandledScreens.register(KTurrets.FIREBALL_DRONE_HANDLER, FireballDroneScreen::new);
+        HandledScreens.register(KTurrets.GAUSS_DRONE_HANDLER, GaussDroneScreen::new);
 
         EntityModelLayer arrowTurretLayer = new EntityModelLayer(new Identifier(KTurrets.ID, "arrow_turret"), "main");
         EntityRendererRegistry.register(KTurrets.ARROW_TURRET, ctx -> new EntityRenderer2<>(ctx, new ArrowTurretModel(ctx.getPart(arrowTurretLayer)), KTurrets.ID, "arrow_turret2", 0.4f));
