@@ -8,6 +8,8 @@ import dev.buildtool.satako.UniqueList;
 import dev.buildtool.satako.gui.*;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
@@ -17,14 +19,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class TurretOptionsScreen extends BetterScreen {
-    private Turret turret;
-    private HashMap<EntityType<?>, Boolean> tempStatusMap;
+    private final Turret turret;
+    private final HashMap<EntityType<?>, Boolean> tempStatusMap;
     private List<EntityType<?>> targets;
     private static final Text CHOICE_HINT = Text.translatable("k_turrets.choose.tooltip");
     private List<SwitchButton> targetButtons;
@@ -117,7 +120,7 @@ public class TurretOptionsScreen extends BetterScreen {
             ClientPlayNetworking.send(KTurrets.togglePlayerProtection, packetByteBuf);
             turret.setProtectingFromPlayers(!turret.isProtectingFromPlayers());
         }));
-        if (!turret.getOwner().isEmpty()) {
+        if (turret.getOwner().isEmpty()) {
             claimTurret = addDrawableChild(new BetterButton(centerX, 120, Text.translatable(turret instanceof Drone ? "k_turrets.claim.drone" : "k_turrets.claim.turret"), button -> {
                 PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
                 packetByteBuf.writeInt(turret.getId());
@@ -147,7 +150,7 @@ public class TurretOptionsScreen extends BetterScreen {
                 String next = exceptions.get(i);
                 SwitchButton switchButton = new SwitchButton(3, 20 * i + label.getY() + label.getHeight(), Text.literal(next), Text.literal(Formatting.STRIKETHROUGH + next), true, p_93751_ -> {
                     if (p_93751_ instanceof SwitchButton switchButton1) {
-                        tempExceptionStatus.put(next, switchButton1.state);
+                        tempExceptionStatus.put(next, !switchButton1.state);
                     }
                 });
                 switchButton.setScrollable(true, true);
@@ -166,8 +169,8 @@ public class TurretOptionsScreen extends BetterScreen {
         for (int i = 0; i < targets.size(); i++) {
             EntityType<?> entityType = targets.get(i);
             SwitchButton switchButton = new SwitchButton(3, 20 * i + label.getY() + label.getHeight(), Text.literal(Registry.ENTITY_TYPE.getId(entityType).toString()), Text.literal(Formatting.STRIKETHROUGH + Registry.ENTITY_TYPE.getId(entityType).toString()), true, p_onPress_1_ -> {
-                if (p_onPress_1_ instanceof SwitchButton) {
-                    tempStatusMap.put(entityType, ((SwitchButton) p_onPress_1_).state);
+                if (p_onPress_1_ instanceof SwitchButton switchButton1) {
+                    tempStatusMap.put(entityType, !switchButton1.state);
                 }
             });
             switchButton.setScrollable(true, true);
@@ -223,7 +226,10 @@ public class TurretOptionsScreen extends BetterScreen {
         super.render(matrices, mouseX, mouseY, delta);
         if (renderLabels) {
             renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.integrity").append(": " + (int) turret.getHealth() + "/" + turret.getMaxHealth())), centerX, centerY + 40);
-            renderTooltip(matrices, List.of(CHOICE_HINT), centerX, centerY + 80);
+            List<Text> lines = split(CHOICE_HINT, width / 2 - 10);
+            for (int i = 0; i < lines.size(); i++) {
+                renderTooltip(matrices, lines.get(i), centerX, centerY + 80 + i * 20);
+            }
             if (turret.getAutomaticTeam().isEmpty()) {
                 renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.no.team")), centerX, centerY + 60);
             } else {
@@ -291,5 +297,17 @@ public class TurretOptionsScreen extends BetterScreen {
         this.protectionFromPlayers.setHidden(false);
         this.resetList.setHidden(false);
         renderLabels = true;
+    }
+
+
+    private List<Text> split(Text text, int maxWidth) {
+        TextRenderer textRenderer1 = MinecraftClient.getInstance().textRenderer;
+        int stringWidth = textRenderer1.getWidth(text);
+        if (stringWidth > maxWidth) {
+            String wrapped = WordUtils.wrap(text.getString(), maxWidth / 6, "\n", false);
+            String[] parts = wrapped.split("\n");
+            return Arrays.stream(parts).map(Text::literal).collect(Collectors.toList());
+        }
+        return List.of(text);
     }
 }

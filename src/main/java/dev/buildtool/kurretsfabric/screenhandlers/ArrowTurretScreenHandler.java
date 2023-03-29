@@ -11,7 +11,6 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.slot.Slot;
 
 public class ArrowTurretScreenHandler extends BetterScreenHandler {
 
@@ -22,10 +21,10 @@ public class ArrowTurretScreenHandler extends BetterScreenHandler {
         int slot = 0;
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 9; k++) {
-                addSlot(new Slot(arrowTurret.ammo, slot++, k * 18, j * 18 + 18 * 2));
+                addSlot(new BetterSlot(arrowTurret.ammo, slot++, k * 18, j * 18 + 18 * 2));
             }
         }
-        addPlayerInventory(0, 5 * 18, playerInventory);
+        addPlayerInventory(0, 6 * 18, playerInventory);
     }
 
     @Override
