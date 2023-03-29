@@ -1,5 +1,6 @@
-package dev.buildtool.kurretsfabric;
+package dev.buildtool.kurretsfabric.goals;
 
+import dev.buildtool.kurretsfabric.Turret;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.player.PlayerEntity;

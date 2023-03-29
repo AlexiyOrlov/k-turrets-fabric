@@ -1,8 +1,8 @@
 package dev.buildtool.kurretsfabric.turrets;
 
-import dev.buildtool.kurretsfabric.AttackGoal;
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.Turret;
+import dev.buildtool.kurretsfabric.goals.AttackGoal;
 import dev.buildtool.kurretsfabric.projectiles.Brick;
 import dev.buildtool.kurretsfabric.screenhandlers.BrickTurretScreenHandler;
 import dev.buildtool.satako.DefaultInventory;
