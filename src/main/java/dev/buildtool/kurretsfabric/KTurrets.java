@@ -169,7 +169,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
     }
 
     private Item.Settings defaults() {
-        return new FabricItemSettings().group(itemGroup);
+        return new FabricItemSettings();
     }
 
     @SuppressWarnings({"SuspiciousNameCombination", "UnstableApiUsage"})

@@ -52,6 +52,9 @@
   "k_turrets.removed.player.from.exceptions": "Removed player %1$s from exceptions",
   "k_turrets.exceptions": "Ignored players",
   "k_turrets.player.is.already.in.exceptions": "Player %1$s is already being ignored",
+  "k_turrets.reached.turret.limit.of": "Reached turret limit of",
+  "k_turrets.reached.drone.limit.of": "Reached drone limit of",
+  "k_turrets.cannot.place.more": "Can't place more",
 
   "death.attack.k_turrets.bullet": "%1$s was shot by a bullet",
   "death.attack.k_turrets.gauss_bullet": "%1$s was shot by a Gauss bullet",
