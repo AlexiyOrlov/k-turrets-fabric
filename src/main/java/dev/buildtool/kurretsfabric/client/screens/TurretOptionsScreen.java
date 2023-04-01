@@ -27,14 +27,14 @@ import java.util.stream.Collectors;
 
 public class TurretOptionsScreen extends BetterScreen {
     private final Turret turret;
-    private final HashMap<EntityType<?>, Boolean> tempStatusMap;
+    private HashMap<EntityType<?>, Boolean> tempStatusMap;
     private List<EntityType<?>> targets;
     private static final Text CHOICE_HINT = Text.translatable("k_turrets.choose.tooltip");
     private List<SwitchButton> targetButtons;
     private TextField addEntityField;
-    private final List<String> exceptions;
-    private final HashMap<String, Boolean> tempExceptionStatus;
-    private final List<Label> suggestions;
+    private List<String> exceptions;
+    private HashMap<String, Boolean> tempExceptionStatus;
+    private List<Label> suggestions;
     private BetterButton addTarget, dismantle, clearTargets, resetList, mobilitySwitch, protectionFromPlayers, claimTurret,
             followSwitch;
     private boolean renderLabels = true;
@@ -42,18 +42,18 @@ public class TurretOptionsScreen extends BetterScreen {
     public TurretOptionsScreen(Turret turret) {
         super(Text.translatable("k_turrets.targets"));
         this.turret = turret;
-        tempStatusMap = new HashMap<>(40);
         targets = new UniqueList<>(Turret.decodeTargets(turret.getTargets()));
-        targets.forEach(entityType -> tempStatusMap.put(entityType, true));
-        exceptions = turret.getExceptions();
-        tempExceptionStatus = new HashMap<>(1);
-        exceptions.forEach(s -> tempExceptionStatus.put(s, true));
-        suggestions = new ArrayList<>(12);
     }
 
     @Override
     protected void init() {
         super.init();
+        tempStatusMap = new HashMap<>(40);
+        targets.forEach(entityType -> tempStatusMap.put(entityType, true));
+        exceptions = turret.getExceptions();
+        tempExceptionStatus = new HashMap<>(1);
+        exceptions.forEach(s -> tempExceptionStatus.put(s, true));
+        suggestions = new ArrayList<>(12);
         addEntityField = addDrawableChild(new TextField(centerX, 3, 180));
         addTarget = addDrawableChild(new BetterButton(centerX, 20, Text.translatable("k_turrets.add.entity.type"), button -> {
             String s = addEntityField.getText();
@@ -70,7 +70,7 @@ public class TurretOptionsScreen extends BetterScreen {
                         packetByteBuf.writeString(playerName);
                         ClientPlayNetworking.send(KTurrets.addPlayerException, packetByteBuf);
                         addEntityField.setText("");
-                        client.player.sendMessage(Text.translatable("k_turrets.added.player.to.exceptions", playerName), false);
+                        clearAndInit();
                     }
                 }
             } else {
@@ -81,9 +81,9 @@ public class TurretOptionsScreen extends BetterScreen {
                     } else {
                         targets.add(type);
                         tempStatusMap.put(type, true);
-                        client.player.sendMessage(Text.translatable("k_turrets.added").append(" ").append(type.getName()), true);
                         if (s.contains(":"))
                             addEntityField.setText(s.substring(0, s.indexOf(':')));
+                        clearAndInit();
                     }
                 }
             }
@@ -107,8 +107,7 @@ public class TurretOptionsScreen extends BetterScreen {
         resetList = addDrawableChild(new BetterButton(clearTargets.x + clearTargets.getElementWidth(), 60, Text.translatable("k_turrets.reset.list"), button -> {
             targets = Registry.ENTITY_TYPE.stream().filter(entityType1 -> !entityType1.getSpawnGroup().isPeaceful()).collect(Collectors.toList());
             targets.forEach(entityType -> tempStatusMap.put(entityType, true));
-            client.currentScreen.close();
-            client.player.closeScreen();
+            clearAndInit();
         }));
         mobilitySwitch = addDrawableChild(new SwitchButton(centerX, 80, Text.translatable("k_turrets.mobile"), Text.translatable("k_turrets.immobile"), turret.isMobile(), button -> {
             PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
@@ -131,8 +130,7 @@ public class TurretOptionsScreen extends BetterScreen {
                 packetByteBuf.writeUuid(client.player.getUuid());
                 ClientPlayNetworking.send(KTurrets.claim, packetByteBuf);
                 turret.setOwner(client.player.getUuid());
-                client.currentScreen.close();
-                client.player.closeScreen();
+                clearAndInit();
             }));
         } else if (turret instanceof Drone drone) {
             followSwitch = addDrawableChild(new SwitchButton(centerX, 120, Text.translatable("k_turrets.following.owner"), Text.translatable("k_turrets.staying"), drone.isFollowingOwner(), button -> {
@@ -165,7 +163,7 @@ public class TurretOptionsScreen extends BetterScreen {
             }
         }
 
-        Label label = addDrawableChild(new Label(3, exceptionButtons.size() > 0 ? exceptionButtons.get(0).getY() + exceptionButtons.get(0).getHeight() + 20 : 3, Text.translatable("k_turrets.targets")));
+        Label label = addDrawableChild(new Label(3, exceptionButtons.size() > 0 ? exceptionButtons.get(exceptionButtons.size() - 1).getY() + exceptionButtons.get(exceptionButtons.size() - 1).getHeight() + 20 : 3, Text.translatable("k_turrets.targets")));
         label.setScrollable(true, true);
         clickableWidgets.add(label);
         targetButtons = new ArrayList<>(targets.size());
