@@ -216,7 +216,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
 
         Identifier brickDrone = new Identifier(ID, "brick_drone");
         BRICK_DRONE = Registry.register(Registry.ENTITY_TYPE, brickDrone, new FabricEntityType<>(BrickDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
-        BRICK_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, brickDrone, new ExtendedScreenHandlerType<>(BrickTurretScreenHandler::new));
+        BRICK_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, brickDrone, new ExtendedScreenHandlerType<>(BrickDroneScreenHandler::new));
         FabricDefaultAttributeRegistry.register(BRICK_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.bulletTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.brickTurretHealth() - 15)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.brickTurretArmor() - 2)));
 
         Identifier bulletDrone = new Identifier(ID, "bullet_drone");
