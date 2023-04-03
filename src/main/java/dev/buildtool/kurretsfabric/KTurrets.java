@@ -31,7 +31,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
@@ -60,24 +59,32 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
     static Item rawTitanium, titaniumIngot, arrowTurret, brickTurret, bulletTurret,
             cobbleTurret, fireballTurret, gaussTurret, arrowDrone, brickDrone, bulletDrone,
             cobbleDrone, fireballDrone, gaussDrone;
-    ItemGroup itemGroup = FabricItemGroupBuilder.create(new Identifier(ID, "everything")).appendItems(itemStacks -> {
-        itemStacks.add(new ItemStack(rawTitanium));
-        itemStacks.add(new ItemStack(titaniumIngot));
-        itemStacks.add(new ItemStack(cobbleTurret));
-        itemStacks.add(new ItemStack(arrowTurret));
-        itemStacks.add(new ItemStack(fireballTurret));
-        itemStacks.add(new ItemStack(bulletTurret));
-        itemStacks.add(new ItemStack(brickTurret));
-        itemStacks.add(new ItemStack(gaussTurret));
-        itemStacks.add(new ItemStack(cobbleDrone));
-        itemStacks.add(new ItemStack(arrowDrone));
-        itemStacks.add(new ItemStack(fireballDrone));
-        itemStacks.add(new ItemStack(bulletDrone));
-        itemStacks.add(new ItemStack(brickDrone));
-        itemStacks.add(new ItemStack(gaussDrone));
-        itemStacks.add(new ItemStack(gaussBullet));
-        itemStacks.add(new ItemStack(explosivePowder));
-    }).icon(() -> new ItemStack(gaussBullet)).build();
+    static Block titaniumOre;
+    static Block deepslateTitaniumOre;
+
+    static {
+        FabricItemGroupBuilder.create(new Identifier(ID, "everything")).appendItems(itemStacks -> {
+            itemStacks.add(new ItemStack(rawTitanium));
+            itemStacks.add(new ItemStack(titaniumIngot));
+            itemStacks.add(new ItemStack(titaniumOre));
+            itemStacks.add(new ItemStack(deepslateTitaniumOre));
+            itemStacks.add(new ItemStack(cobbleTurret));
+            itemStacks.add(new ItemStack(arrowTurret));
+            itemStacks.add(new ItemStack(fireballTurret));
+            itemStacks.add(new ItemStack(bulletTurret));
+            itemStacks.add(new ItemStack(brickTurret));
+            itemStacks.add(new ItemStack(gaussTurret));
+            itemStacks.add(new ItemStack(cobbleDrone));
+            itemStacks.add(new ItemStack(arrowDrone));
+            itemStacks.add(new ItemStack(fireballDrone));
+            itemStacks.add(new ItemStack(bulletDrone));
+            itemStacks.add(new ItemStack(brickDrone));
+            itemStacks.add(new ItemStack(gaussDrone));
+            itemStacks.add(new ItemStack(gaussBullet));
+            itemStacks.add(new ItemStack(explosivePowder));
+        }).icon(() -> new ItemStack(gaussBullet)).build();
+    }
+
 
     public static Identifier titaniumIngots = new Identifier("c", "titanium_ingots");
 
@@ -124,9 +131,9 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
     @Override
     public void onInitialize() {
         Identifier ore1 = new Identifier(ID, "titanium_ore");
-        Block titaniumOre = Registry.register(Registry.BLOCK, ore1, new OreBlock(AbstractBlock.Settings.of(Material.STONE).requiresTool().strength(3, 3)));
+        titaniumOre = Registry.register(Registry.BLOCK, ore1, new OreBlock(AbstractBlock.Settings.of(Material.STONE).requiresTool().strength(3, 3)));
         Identifier ore2 = new Identifier(ID, "deepslate_titanium_ore");
-        Block deepslateTitaniumOre = Registry.register(Registry.BLOCK, ore2, new OreBlock(AbstractBlock.Settings.copy(titaniumOre).sounds(BlockSoundGroup.DEEPSLATE).luminance(value -> FabricLoader.getInstance().isDevelopmentEnvironment() ? 15 : 0)));
+        deepslateTitaniumOre = Registry.register(Registry.BLOCK, ore2, new OreBlock(AbstractBlock.Settings.copy(titaniumOre).sounds(BlockSoundGroup.DEEPSLATE).luminance(value -> FabricLoader.getInstance().isDevelopmentEnvironment() ? 15 : 0)));
         Registry.register(Registry.ITEM, ore1, new BlockItem(titaniumOre, defaults()));
         Registry.register(Registry.ITEM, ore2, new BlockItem(deepslateTitaniumOre, defaults()));
 
