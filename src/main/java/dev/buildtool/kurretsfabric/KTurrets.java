@@ -21,6 +21,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.impl.object.builder.FabricEntityType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
@@ -125,13 +126,13 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
         Identifier ore1 = new Identifier(ID, "titanium_ore");
         Block titaniumOre = Registry.register(Registry.BLOCK, ore1, new OreBlock(AbstractBlock.Settings.of(Material.STONE).requiresTool().strength(3, 3)));
         Identifier ore2 = new Identifier(ID, "deepslate_titanium_ore");
-        Block deepslateTitaniumOre = Registry.register(Registry.BLOCK, ore2, new OreBlock(AbstractBlock.Settings.copy(titaniumOre).sounds(BlockSoundGroup.DEEPSLATE)));
+        Block deepslateTitaniumOre = Registry.register(Registry.BLOCK, ore2, new OreBlock(AbstractBlock.Settings.copy(titaniumOre).sounds(BlockSoundGroup.DEEPSLATE).luminance(value -> FabricLoader.getInstance().isDevelopmentEnvironment() ? 15 : 0)));
         Registry.register(Registry.ITEM, ore1, new BlockItem(titaniumOre, defaults()));
         Registry.register(Registry.ITEM, ore2, new BlockItem(deepslateTitaniumOre, defaults()));
 
         List<OreFeatureConfig.Target> blockTargets = List.of(OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, titaniumOre.getDefaultState()), OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, deepslateTitaniumOre.getDefaultState()));
         RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> configuredOres = ConfiguredFeatures.register("titanium_ore", Feature.ORE, new OreFeatureConfig(blockTargets, 11));
-        PlacedFeatures.register("titanium_ore", configuredOres, List.of(CountPlacementModifier.of(35), HeightRangePlacementModifier.trapezoid(YOffset.getBottom(), YOffset.fixed(384))));
+        PlacedFeatures.register("titanium_ore", configuredOres, List.of(CountPlacementModifier.of(29), HeightRangePlacementModifier.trapezoid(YOffset.getBottom(), YOffset.fixed(384))));
 
         RegistryKey<PlacedFeature> titaniumOreKey = RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(ID, "titanium_ore"));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, titaniumOreKey);
