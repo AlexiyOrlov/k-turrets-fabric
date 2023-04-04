@@ -217,10 +217,10 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
                 if (player != null) {
                     String position = " " + (int) getX() + " " + (int) getY() + " " + ((int) getZ());
                     if (damageSource.getAttacker() != null) {
-                        player.sendMessage(getCustomName().copy().append(" ").append(Text.translatable("k_turrets.was.destroyed.by")).append(" ").append(damageSource.getAttacker().getCustomName()).append(" ").append(position), false);
+                        player.sendMessage(getDisplayName().copy().append(" ").append(Text.translatable("k_turrets.was.destroyed.by")).append(" ").append(damageSource.getAttacker().getDisplayName()).append(" ").append(position), false);
                     } else {
                         if (damageSource.getSource() != null)
-                            player.sendMessage(getCustomName().copy().append(" ").append(Text.translatable("k_turrets.was.destroyed.by")).append(" ").append(damageSource.getSource().getCustomName()).append(" ").append(Text.translatable("k_turrets.at")).append(" ").append(position), false);
+                            player.sendMessage(getDisplayName().copy().append(" ").append(Text.translatable("k_turrets.was.destroyed.by")).append(" ").append(damageSource.getSource().getDisplayName()).append(" ").append(Text.translatable("k_turrets.at")).append(" ").append(position), false);
                         else
                             player.sendMessage(damageSource.getDeathMessage(this).copy().append(" ").append(Text.translatable("k_turrets.at")).append(position), false);
                     }
