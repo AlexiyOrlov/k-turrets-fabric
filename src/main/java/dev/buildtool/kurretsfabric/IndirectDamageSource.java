@@ -16,13 +16,13 @@ public class IndirectDamageSource extends EntityDamageSource {
 
     @Override
     public Entity getAttacker() {
-        return this.source;
+        return this.owner;
     }
 
     @Nullable
     @Override
     public Entity getSource() {
-        return owner;
+        return source;
     }
 
     @Override
