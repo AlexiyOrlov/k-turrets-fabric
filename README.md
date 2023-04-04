@@ -1,1 +1,1 @@
-Launch the game via gradle if weirdness happens
+Launch the game via gradle.
