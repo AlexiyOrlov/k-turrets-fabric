@@ -139,7 +139,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
 
         List<OreFeatureConfig.Target> blockTargets = List.of(OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, titaniumOre.getDefaultState()), OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, deepslateTitaniumOre.getDefaultState()));
         RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> configuredOres = ConfiguredFeatures.register("titanium_ore", Feature.ORE, new OreFeatureConfig(blockTargets, 11));
-        PlacedFeatures.register("titanium_ore", configuredOres, List.of(CountPlacementModifier.of(24), HeightRangePlacementModifier.trapezoid(YOffset.getBottom(), YOffset.fixed(384))));
+        PlacedFeatures.register("titanium_ore", configuredOres, List.of(CountPlacementModifier.of(26), HeightRangePlacementModifier.trapezoid(YOffset.getBottom(), YOffset.fixed(384))));
 
         RegistryKey<PlacedFeature> titaniumOreKey = RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(ID, "titanium_ore"));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, titaniumOreKey);
