@@ -16,7 +16,7 @@ repositories {
     }
     maven {
         name = "Ladysnake Mods"
-        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+        url = 'https://maven.ladysnake.org/releases'
     }
 }
 
@@ -26,9 +26,8 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation('dev.buildtool:satako-fabric:1.0.10-1.19.2')
+    modImplementation('dev.buildtool:satako-fabric:1.0.13-1.19.2')
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
     include "io.wispforest:owo-sentinel:${project.owo_version}"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-api:5.0.2"

@@ -10,6 +10,7 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
@@ -133,13 +134,55 @@ public class TurretOptionsScreen extends BetterScreen {
                 clearAndInit();
             }));
         } else if (turret instanceof Drone drone) {
-            followSwitch = addDrawableChild(new SwitchButton(centerX, 120, Text.translatable("k_turrets.following.owner"), Text.translatable("k_turrets.staying"), drone.isFollowingOwner(), button -> {
+            DropDownButton dropDownButton = new DropDownButton(centerX, 120, this, Text.literal("K-Turrets"));
+            LinkedHashMap<Text, ButtonWidget.PressAction> linkedHashMap = new LinkedHashMap<>(3);
+            RadioButton follow = new RadioButton(centerX, 140, Text.translatable("k_turrets.following.owner"));
+            linkedHashMap.put(follow.getMessage(), p_93751_ -> {
+                drone.setFollowingOwner(true);
+                drone.setGuardingArea(false);
+                PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
+                byteBuf.writeInt(drone.getId());
+                byteBuf.writeBoolean(true);
+                ClientPlayNetworking.send(KTurrets.toggleFollow, byteBuf);
                 PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
-                packetByteBuf.writeInt(turret.getId());
-                packetByteBuf.writeBoolean(!drone.isFollowingOwner());
-                ClientPlayNetworking.send(KTurrets.toggleFollow, packetByteBuf);
-                drone.setFollowingOwner(!drone.isFollowingOwner());
-            }));
+                packetByteBuf.writeInt(drone.getId());
+                packetByteBuf.writeBoolean(false);
+                ClientPlayNetworking.send(KTurrets.setGuardArea, packetByteBuf);
+                dropDownButton.setMessage(p_93751_.getMessage());
+                dropDownButton.onPress();
+            });
+            RadioButton stay = new RadioButton(centerX, 160, Text.translatable("k_turrets.staying"));
+            linkedHashMap.put(stay.getMessage(), p_93751_ -> {
+                drone.setFollowingOwner(false);
+                drone.setGuardingArea(false);
+                PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
+                byteBuf.writeInt(drone.getId());
+                byteBuf.writeBoolean(false);
+                ClientPlayNetworking.send(KTurrets.toggleFollow, byteBuf);
+                PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
+                packetByteBuf.writeInt(drone.getId());
+                packetByteBuf.writeBoolean(false);
+                ClientPlayNetworking.send(KTurrets.setGuardArea, packetByteBuf);
+                dropDownButton.setMessage(p_93751_.getMessage());
+                dropDownButton.onPress();
+            });
+            RadioButton guard = new RadioButton(centerX, 180, Text.translatable("k_turrets.guard.area"));
+            linkedHashMap.put(guard.getMessage(), p_93751_ -> {
+                drone.setFollowingOwner(false);
+                drone.setGuardingArea(true);
+                PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
+                byteBuf.writeInt(drone.getId());
+                byteBuf.writeBoolean(false);
+                ClientPlayNetworking.send(KTurrets.toggleFollow, byteBuf);
+                PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
+                packetByteBuf.writeInt(drone.getId());
+                packetByteBuf.writeBoolean(true);
+                ClientPlayNetworking.send(KTurrets.setGuardArea, packetByteBuf);
+                dropDownButton.setMessage(p_93751_.getMessage());
+                dropDownButton.onPress();
+            });
+            dropDownButton.setChoices(linkedHashMap, drone.isGuardingArea() ? 2 : drone.isFollowingOwner() ? 0 : 1);
+            addSelectableChild(dropDownButton);
         }
         List<ClickableWidget> clickableWidgets = new ArrayList<>();
         List<SwitchButton> exceptionButtons = new ArrayList<>(19);

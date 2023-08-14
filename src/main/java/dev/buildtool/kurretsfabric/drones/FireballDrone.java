@@ -105,12 +105,12 @@ public class FireballDrone extends Drone {
         }) {
             @Override
             public boolean canStart() {
-                return isArmed() && super.canStart();
+                return ((!isFollowingOwner() && isGuardingArea()) || isFollowingOwner()) && isArmed() && super.canStart();
             }
 
             @Override
             public boolean shouldContinue() {
-                return isArmed() && super.shouldContinue();
+                return ((!isFollowingOwner() && isGuardingArea()) || isFollowingOwner()) && isArmed() && super.shouldContinue();
             }
         });
     }

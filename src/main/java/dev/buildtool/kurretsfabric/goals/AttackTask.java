@@ -1,5 +1,6 @@
 package dev.buildtool.kurretsfabric.goals;
 
+import dev.buildtool.kurretsfabric.Drone;
 import dev.buildtool.kurretsfabric.Turret;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -20,11 +21,17 @@ public class AttackTask extends ActiveTargetGoal<LivingEntity> {
 
     @Override
     public boolean canStart() {
+        if (turret instanceof Drone drone) {
+            return ((!drone.isFollowingOwner() && drone.isGuardingArea()) || drone.isFollowingOwner()) && drone.isArmed() && super.canStart();
+        }
         return turret.isArmed() && super.canStart();
     }
 
     @Override
     public boolean shouldContinue() {
+        if (turret instanceof Drone drone) {
+            return ((!drone.isFollowingOwner() && drone.isGuardingArea()) || drone.isFollowingOwner()) && drone.isArmed() && super.shouldContinue();
+        }
         return turret.isArmed() && super.shouldContinue();
     }
 
