@@ -1,2 +1,3 @@
 0.0.13-1.19.2:
-updated Chinese translation
+updated Chinese translation;
+increased ore occurrence
