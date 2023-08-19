@@ -1,6 +1,7 @@
 0.0.14-1.19.2:
 fixed alien players not being hit by turrets/drones;
 disabled element scrolling via wheel in target list;
+increased Satako dependency;
 
 0.0.13-1.19.2:
 updated Chinese translation;
