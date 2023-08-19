@@ -186,10 +186,9 @@ public class TurretOptionsScreen extends BetterScreen {
         }
         List<ClickableWidget> clickableWidgets = new ArrayList<>();
         List<SwitchButton> exceptionButtons = new ArrayList<>(19);
-        if (exceptions.size() > 0) {
+        if (!exceptions.isEmpty()) {
             Label label = new Label(3, 3, Text.translatable("k_turrets.exceptions").append(":"));
             addDrawableChild(label);
-            label.setScrollable(true, true);
             clickableWidgets.add(label);
             for (int i = 0; i < exceptions.size(); i++) {
                 String next = exceptions.get(i);
@@ -198,7 +197,6 @@ public class TurretOptionsScreen extends BetterScreen {
                         tempExceptionStatus.put(next, switchButton1.state);
                     }
                 });
-                switchButton.setScrollable(true, true);
                 addDrawableChild(switchButton);
                 exceptionButtons.add(switchButton);
                 clickableWidgets.add(switchButton);
@@ -206,8 +204,7 @@ public class TurretOptionsScreen extends BetterScreen {
             }
         }
 
-        Label label = addDrawableChild(new Label(3, exceptionButtons.size() > 0 ? exceptionButtons.get(exceptionButtons.size() - 1).getY() + exceptionButtons.get(exceptionButtons.size() - 1).getHeight() + 20 : 3, Text.translatable("k_turrets.targets")));
-        label.setScrollable(true, true);
+        Label label = addDrawableChild(new Label(3, !exceptionButtons.isEmpty() ? exceptionButtons.get(exceptionButtons.size() - 1).getY() + exceptionButtons.get(exceptionButtons.size() - 1).getHeight() + 20 : 3, Text.translatable("k_turrets.targets")));
         clickableWidgets.add(label);
         targetButtons = new ArrayList<>(targets.size());
         targets.sort(Comparator.comparing(entityType -> Registry.ENTITY_TYPE.getId(entityType).toString()));
@@ -218,7 +215,6 @@ public class TurretOptionsScreen extends BetterScreen {
                     tempStatusMap.put(entityType, switchButton1.state);
                 }
             });
-            switchButton.setScrollable(true, true);
             addDrawableChild(switchButton);
             targetButtons.add(switchButton);
             clickableWidgets.add(switchButton);
