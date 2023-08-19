@@ -46,12 +46,15 @@ public abstract class PresetProjectile extends ExplosiveProjectileEntity {
     @Override
     protected boolean canHit(Entity entity) {
         Entity owner = getOwner();
-        if (turret != null && entity.getType().getSpawnGroup().isPeaceful() && Turret.decodeTargets(turret.getTargets()).contains(entity.getType()))
-            return super.canHit(entity);
-        else if (owner == null || !owner.isTeammate(entity) && !entity.getType().getSpawnGroup().isPeaceful()) {
+        if (turret != null && entity.getType().getSpawnGroup().isPeaceful() && Turret.decodeTargets(turret.getTargets()).contains(entity.getType())) {
             return super.canHit(entity);
         }
-        return false;
+        else if (owner == null || !owner.isTeammate(entity) && !entity.getType().getSpawnGroup().isPeaceful()) {
+            {
+                return super.canHit(entity);
+            }
+        }
+        return true;
     }
 
     protected abstract DamageSource getDamageSource();

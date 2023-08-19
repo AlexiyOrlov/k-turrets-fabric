@@ -110,14 +110,14 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         dataTracker.set(OWNER_NAME, name);
     }
 
-
     public Predicate<LivingEntity> alienPlayers = livingEntity -> {
         if (getOwner().isPresent()) {
             if (livingEntity instanceof PlayerEntity player) {
                 NbtCompound targets = getIgnoredPlayers();
                 for (String key : targets.getKeys()) {
-                    if (targets.get(key).equals(player.getName().getString()))
+                    if (targets.getString(key).equals(player.getName().getString())) {
                         return false;
+                    }
                 }
                 return !player.getUuid().equals(getOwner().get()) && !isTeammate(player);
             }
@@ -288,7 +288,11 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
 
     @Override
     public boolean isTeammate(Entity other) {
-        return super.isTeammate(other) || (getOwner().isPresent() && other.getUuid().equals(getOwner().get())) || other instanceof Turret turret && turret.getOwner().equals(getOwner());
+        if (getOwner().isPresent() && other.getUuid().equals(getOwner().get()))
+            return true;
+        if (other instanceof Turret turret && turret.getOwner().equals(getOwner()))
+            return true;
+        return super.isTeammate(other);
     }
 
     @Override
