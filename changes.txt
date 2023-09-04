@@ -1,3 +1,8 @@
+0.0.15-1.19.2:
+game no longer crashes if a player enters uppercase letters for adding new entity in the target list;
+added detection range value indicator to options screen;
+drone health is now 83% of turret health and armor is now 34% of turret armor;
+
 0.0.14-1.19.2:
 fixed alien players not being hit by turrets/drones;
 disabled element scrolling via wheel in target list;
