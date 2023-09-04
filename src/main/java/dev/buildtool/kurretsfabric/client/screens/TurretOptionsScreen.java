@@ -75,6 +75,7 @@ public class TurretOptionsScreen extends BetterScreen {
                     }
                 }
             } else {
+                s = s.toLowerCase();
                 EntityType<?> type = Registry.ENTITY_TYPE.get(new Identifier(s));
                 if (s.length() > 2) {
                     if (type == EntityType.PIG && !s.equals("minecraft:pig") && !s.equals("pig")) {
@@ -286,7 +287,7 @@ public class TurretOptionsScreen extends BetterScreen {
             suggestions.forEach(this::remove);
             suggestions.clear();
             String text = addEntityField.getText();
-            if (text.length() > 0) {
+            if (!text.isEmpty()) {
                 List<Identifier> entityTypes;
                 if (text.contains(":"))
                     entityTypes = new ArrayList<>(Registry.ENTITY_TYPE.getIds().stream().filter(resourceLocation -> resourceLocation.toString().contains(text)).toList());
