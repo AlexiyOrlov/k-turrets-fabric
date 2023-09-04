@@ -410,7 +410,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         return Arm.RIGHT;
     }
 
-    protected double getRange() {
+    public double getRange() {
         return getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE);
     }
 

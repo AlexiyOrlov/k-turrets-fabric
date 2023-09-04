@@ -267,14 +267,15 @@ public class TurretOptionsScreen extends BetterScreen {
         super.render(matrices, mouseX, mouseY, delta);
         if (renderLabels) {
             renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.integrity").append(": " + (int) turret.getHealth() + "/" + turret.getMaxHealth())), centerX, centerY + 40);
+            renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.range").append(": " + (int) turret.getRange())), centerX, centerY + 60);
             List<Text> lines = split(CHOICE_HINT, width / 2 - 10);
             for (int i = 0; i < lines.size(); i++) {
-                renderTooltip(matrices, lines.get(i), centerX, centerY + 80 + i * 20);
+                renderTooltip(matrices, lines.get(i), centerX, centerY + 100 + i * 20);
             }
             if (turret.getAutomaticTeam().isEmpty()) {
-                renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.no.team")), centerX, centerY + 60);
+                renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.no.team")), centerX, centerY + 80);
             } else {
-                renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.team").append(": " + turret.getAutomaticTeam())), centerX, centerY + 60);
+                renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.team").append(": " + turret.getAutomaticTeam())), centerX, centerY + 80);
             }
         }
     }
