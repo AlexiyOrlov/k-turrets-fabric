@@ -222,32 +222,32 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
         Identifier arrowDrone = new Identifier(ID, "arrow_drone");
         ARROW_DRONE = Registry.register(Registry.ENTITY_TYPE, arrowDrone, new FabricEntityType<>(ArrowDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
         ARROW_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, arrowDrone, new ExtendedScreenHandlerType<>(ArrowDroneScreenHandler::new));
-        FabricDefaultAttributeRegistry.register(ARROW_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.arrowTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(CONFIGURATION.arrowTurretArmor() - 2, 0)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.arrowTurretHealth() - 15)));
+        FabricDefaultAttributeRegistry.register(ARROW_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.arrowTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(CONFIGURATION.arrowTurretArmor() * 0.34, 0)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.arrowTurretHealth() * 0.83)));
 
         Identifier brickDrone = new Identifier(ID, "brick_drone");
         BRICK_DRONE = Registry.register(Registry.ENTITY_TYPE, brickDrone, new FabricEntityType<>(BrickDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
         BRICK_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, brickDrone, new ExtendedScreenHandlerType<>(BrickDroneScreenHandler::new));
-        FabricDefaultAttributeRegistry.register(BRICK_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.bulletTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.brickTurretHealth() - 15)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.brickTurretArmor() - 2)));
+        FabricDefaultAttributeRegistry.register(BRICK_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.bulletTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.brickTurretHealth() * 0.83)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.brickTurretArmor() * 0.34)));
 
         Identifier bulletDrone = new Identifier(ID, "bullet_drone");
         BULLET_DRONE = Registry.register(Registry.ENTITY_TYPE, bulletDrone, new FabricEntityType<>(BulletDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
         BULLET_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, bulletDrone, new ExtendedScreenHandlerType<>(BulletDroneScreenHandler::new));
-        FabricDefaultAttributeRegistry.register(BULLET_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.bulletTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.bulletTurretHealth() - 15)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.bulletTurretArmor() - 2)));
+        FabricDefaultAttributeRegistry.register(BULLET_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.bulletTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.bulletTurretHealth() * 0.83)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.bulletTurretArmor() * 0.34)));
 
         Identifier cobbleDrone = new Identifier(ID, "cobble_drone");
         COBBLE_DRONE = Registry.register(Registry.ENTITY_TYPE, cobbleDrone, new FabricEntityType<>(CobbleDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
         COBBLE_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, cobbleDrone, new ExtendedScreenHandlerType<>(CobbleDroneScreenHandler::new));
-        FabricDefaultAttributeRegistry.register(COBBLE_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.cobbleTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.cobbleTurretArmor() - 2)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.cobbleTurretHealth() - 15)));
+        FabricDefaultAttributeRegistry.register(COBBLE_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.cobbleTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.cobbleTurretArmor() * 0.34)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.cobbleTurretHealth() * 0.83)));
 
         Identifier fireballDrone = new Identifier(ID, "fireball_drone");
         FIREBALL_DRONE = Registry.register(Registry.ENTITY_TYPE, fireballDrone, new FabricEntityType<>(FireballDrone::new, SpawnGroup.MISC, true, true, true, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
         FIREBALL_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, fireballDrone, new ExtendedScreenHandlerType<>(FireballDroneScreenHandler::new));
-        FabricDefaultAttributeRegistry.register(FIREBALL_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.fireChargeTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.fireChargeTurretHealth() - 15)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.fireChargeTurretArmor() - 2)));
+        FabricDefaultAttributeRegistry.register(FIREBALL_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.fireChargeTurretRange() - 5).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.fireChargeTurretHealth() * 0.83)).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.fireChargeTurretArmor() * 0.34)));
 
         Identifier gaussDrone = new Identifier(ID, "gauss_drone");
         GAUSS_DRONE = Registry.register(Registry.ENTITY_TYPE, gaussDrone, new FabricEntityType<>(GaussDrone::new, SpawnGroup.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.fixed(droneWidth, droneWidth), 5, 3, false));
         GAUSS_DRONE_HANDLER = Registry.register(Registry.SCREEN_HANDLER, gaussDrone, new ExtendedScreenHandlerType<>(GaussDroneScreenHandler::new));
-        FabricDefaultAttributeRegistry.register(GAUSS_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.gaussTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.gaussTurretArmor() - 2)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.gaussTurretHealth() - 15)));
+        FabricDefaultAttributeRegistry.register(GAUSS_DRONE, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.gaussTurretRange() - 5).add(EntityAttributes.GENERIC_ARMOR, Math.max(0, CONFIGURATION.gaussTurretArmor() * 0.34)).add(EntityAttributes.GENERIC_MAX_HEALTH, Math.max(10, CONFIGURATION.gaussTurretHealth() * 0.83)));
     }
 
     private void registerPackets() {
