@@ -132,7 +132,7 @@ public class TurretOptionsScreen extends BetterScreen {
                 packetByteBuf.writeUuid(client.player.getUuid());
                 ClientPlayNetworking.send(KTurrets.claim, packetByteBuf);
                 turret.setOwner(client.player.getUuid());
-                clearAndInit();
+                client.player.closeScreen();
             }));
         } else if (turret instanceof Drone drone) {
             DropDownButton dropDownButton = new DropDownButton(centerX, 120, this, Text.literal("K-Turrets"));
