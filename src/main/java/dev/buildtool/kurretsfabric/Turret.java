@@ -29,7 +29,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.scoreboard.AbstractTeam;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -421,41 +420,35 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
 
     @Override
     protected ActionResult interactMob(PlayerEntity player, Hand hand) {
-        if (canUse(player) && !player.isSneaking()) {
-            if (player instanceof ServerPlayerEntity)
-                player.openHandledScreen(this);
-            return ActionResult.SUCCESS;
-        }
-
-        ItemStack itemStack = player.getStackInHand(hand);
-        if (getHealth() < getMaxHealth() && itemStack.streamTags().anyMatch(itemTagKey -> itemTagKey.id().equals(KTurrets.titaniumIngots))) {
+        ItemStack itemInHand = player.getStackInHand(hand);
+        if (getHealth() < getMaxHealth() && player.isSneaking() && itemInHand.streamTags().anyMatch(itemTagKey -> itemTagKey.id().equals(KTurrets.titaniumIngots))) {
             heal(restoreHealth());
-            itemStack.decrement(1);
+            itemInHand.decrement(1);
             return ActionResult.SUCCESS;
         }
-        if (canUse(player)) {
-            if (world.isClient)
-                openConfigurationScreen();
-            if (player.getScoreboardTeam() != null)
-                setAutomaticTeam(player.getScoreboardTeam().getName());
-            else setAutomaticTeam("");
-            if (getOwner().isEmpty()) {
-                setOwnerName(player.getName().getString());
-            }
-            return ActionResult.SUCCESS;
-        } else if (world.isClient) {
-            if (getOwner().isEmpty()) {
-                if (this instanceof Drone)
-                    player.sendMessage(Text.translatable("k_turrets.drone.not.yours"), true);
-                else
-                    player.sendMessage(Text.translatable("k_turrets.turret.not.yours"), true);
-            } else if (this instanceof Drone)
-                player.sendMessage(Text.translatable("k_turrets.drone.belongs.to").append(" ").append(player.getName()), true);
-            else
-                player.sendMessage(Text.translatable("k_turrets.turret.belongs.to").append(" ").append(player.getName()), true);
 
+        if (canUse(player)) {
+            if (player.getScoreboardTeam() != null) {
+                setAutomaticTeam(player.getScoreboardTeam().getName());
+            } else {
+                setAutomaticTeam("");
+            }
+            if (getOwnerName().isEmpty())
+                setOwnerName(player.getName().getString());
+            if (world.isClient && player.isSneaking()) {
+                openConfigurationScreen();
+                return ActionResult.PASS;
+            } else if (!world.isClient && !player.isSneaking()) {
+                player.openHandledScreen(this);
+                return ActionResult.PASS;
+            }
+        } else if (world.isClient) {
+            if (this instanceof Drone) {
+                if (!getOwnerName().isEmpty())
+                    player.sendMessage(Text.translatable("k_turrets.turret.belongs.to").append(" " + getOwnerName()), true);
+            }
         }
-        return ActionResult.PASS;
+        return ActionResult.FAIL;
     }
 
     @Override
