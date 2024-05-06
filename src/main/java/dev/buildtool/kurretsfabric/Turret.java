@@ -126,7 +126,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
     };
 
     public static DefaultAttributeContainer.Builder createDefaultAttributes() {
-        return createLivingAttributes().add(EntityAttributes.GENERIC_FLYING_SPEED, 0.2).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0);
+        return createLivingAttributes().add(EntityAttributes.GENERIC_FLYING_SPEED, 0.27).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0);
     }
 
     @Override
