@@ -74,4 +74,6 @@ public class Configuration {
     public int turretLimitPerPlayer = 50;
     @RangeConstraint(min = 1, max = 300)
     public int droneLimitPerPlayer = 30;
+    @RangeConstraint(min = 0.1, max = 50)
+    public int projectileSpeed = 50;
 }

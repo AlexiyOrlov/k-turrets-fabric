@@ -34,7 +34,6 @@ public class Arrow2 extends ArrowEntity {
     public Arrow2(World world, PersistentProjectileEntity arrowEntity, Turret turret) {
         super(world, turret);
         copyPositionAndRotation(arrowEntity);
-        setVelocity(arrowEntity.getVelocity());
         setPierceLevel(arrowEntity.getPierceLevel());
         if (arrowEntity instanceof SpectralArrowEntity) {
             addEffect(new StatusEffectInstance(StatusEffects.GLOWING, 200));
@@ -152,13 +151,13 @@ public class Arrow2 extends ArrowEntity {
     @Override
     public void tick() {
         super.tick();
-        if (this.getVelocity().length() < 1)
+        if (this.getVelocity().length() < 0.01)
             discard();
     }
 
     @Override
     public void setVelocity(double x, double y, double z, float speed, float divergence) {
-        Vec3d vec3d = new Vec3d(x, y, z);
+        Vec3d vec3d = new Vec3d(x, y, z).normalize().multiply(KTurrets.CONFIGURATION.projectileSpeed() * 3);
         this.setVelocity(vec3d);
         double d = vec3d.horizontalLength();
         this.setYaw((float) (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875));
