@@ -57,6 +57,7 @@
   "k_turrets.cannot.place.more": "Can't place more",
   "k_turrets.guard.area": "Guard area",
   "k_turrets.range": "Detection range",
+  "k_turrets.damage": "Damage",
 
   "death.attack.k_turrets.bullet": "%1$s was shot by a bullet",
   "death.attack.k_turrets.gauss_bullet": "%1$s was shot by a Gauss bullet",

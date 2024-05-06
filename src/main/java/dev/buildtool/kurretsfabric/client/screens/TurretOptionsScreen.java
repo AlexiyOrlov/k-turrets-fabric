@@ -3,6 +3,8 @@ package dev.buildtool.kurretsfabric.client.screens;
 import dev.buildtool.kurretsfabric.Drone;
 import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.Turret;
+import dev.buildtool.kurretsfabric.drones.*;
+import dev.buildtool.kurretsfabric.turrets.*;
 import dev.buildtool.satako.IntegerColor;
 import dev.buildtool.satako.UniqueList;
 import dev.buildtool.satako.gui.*;
@@ -12,7 +14,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -222,6 +223,30 @@ public class TurretOptionsScreen extends BetterScreen {
         }
         ScrollArea scrollArea = new ScrollArea(3, 3, centerX - 15, height, Text.literal(""), new IntegerColor(0x228FDBF0), clickableWidgets);
         addDrawableChild(scrollArea);
+
+        if (turret.getAutomaticTeam().isEmpty()) {
+            addDrawableChild(new Label(centerX, 160, Text.translatable("k_turrets.no.team")));
+        } else {
+            addDrawableChild(new Label(centerX, 160, Text.translatable("k_turrets.team").append(": " + turret.getAutomaticTeam())));
+        }
+        addDrawableChild(new Label(centerX, 180, Text.translatable("k_turrets.choose.tooltip")));
+
+        addDrawableChild(new Label(centerX, 200, Text.translatable("k_turrets.range").append(": " + turret.getRange())));
+        addDrawableChild(new Label(centerX, 220, Text.translatable("k_turrets.integrity").append(": ").append(turret.getHealth() + "/" + turret.getMaxHealth())));
+
+        if (turret instanceof ArrowTurret || turret instanceof ArrowDrone) {
+            addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.arrowTurretDamage() + "")));
+        } else if (turret instanceof BrickTurret || turret instanceof BrickDrone) {
+            addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.brickDamage() + "/" + KTurrets.CONFIGURATION.netherBrickDamage())));
+        } else if (turret instanceof BulletTurret || turret instanceof BulletDrone) {
+            addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.ironBulletDamage() + "/" + KTurrets.CONFIGURATION.goldBulletDamage())));
+        } else if (turret instanceof FirechargeTurret || turret instanceof FireballDrone) {
+            addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.fireChargeTurretDamage() + "")));
+        } else if (turret instanceof CobbleTurret || turret instanceof CobbleDrone) {
+            addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.cobbleTurretDamage() + "")));
+        } else if (turret instanceof GaussTurret || turret instanceof GaussDrone) {
+            addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.gaussTurretDamage() + "")));
+        }
     }
 
     @Override
@@ -263,23 +288,6 @@ public class TurretOptionsScreen extends BetterScreen {
         });
     }
 
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
-        if (renderLabels) {
-            renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.integrity").append(": " + (int) turret.getHealth() + "/" + turret.getMaxHealth())), centerX, centerY + 40);
-            renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.range").append(": " + (int) turret.getRange())), centerX, centerY + 60);
-            List<Text> lines = split(CHOICE_HINT, width / 2 - 10);
-            for (int i = 0; i < lines.size(); i++) {
-                renderTooltip(matrices, lines.get(i), centerX, centerY + 100 + i * 20);
-            }
-            if (turret.getAutomaticTeam().isEmpty()) {
-                renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.no.team")), centerX, centerY + 80);
-            } else {
-                renderTooltip(matrices, Collections.singletonList(Text.translatable("k_turrets.team").append(": " + turret.getAutomaticTeam())), centerX, centerY + 80);
-            }
-        }
-    }
 
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
