@@ -183,7 +183,7 @@ public class TurretOptionsScreen extends BetterScreen {
                 dropDownButton.onPress();
             });
             dropDownButton.setChoices(linkedHashMap, drone.isGuardingArea() ? 2 : drone.isFollowingOwner() ? 0 : 1);
-            addSelectableChild(dropDownButton);
+            addDrawableChild(dropDownButton);
         }
         List<ClickableWidget> clickableWidgets = new ArrayList<>();
         List<SwitchButton> exceptionButtons = new ArrayList<>(19);
