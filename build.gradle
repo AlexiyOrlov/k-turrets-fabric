@@ -30,7 +30,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation('dev.buildtool:satako-fabric:1.0.13-1.19.2:dev')
+    modImplementation('dev.buildtool:satako-fabric:1.0.14-1.19.2:dev')
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
     include "io.wispforest:owo-sentinel:${project.owo_version}"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-api:5.0.2"
