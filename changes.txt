@@ -1,5 +1,7 @@
 0.0.16:
 drones can be set to follow, stay, or guard area;
+various fixes;
+only allied turret/drone health is shown;
 
 0.0.15-1.19.2:
 game no longer crashes if a player enters uppercase letters for adding new entity in the target list;
