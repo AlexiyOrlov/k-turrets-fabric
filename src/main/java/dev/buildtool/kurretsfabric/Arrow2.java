@@ -68,12 +68,28 @@ public class Arrow2 extends ArrowEntity {
     }
 
     @Override
-    protected boolean canHit(Entity entity) {
-        Entity owner = getOwner();
-        if (turret != null && entity.getType().getSpawnGroup().isPeaceful() && Turret.decodeTargets(turret.getTargets()).contains(entity.getType()))
-            return super.canHit(entity);
-        else if (owner == null || !owner.isTeammate(entity) && !entity.getType().getSpawnGroup().isPeaceful()) {
-            return super.canHit(entity);
+    protected boolean canHit(Entity target) {
+        Entity entity = getOwner();
+        if (entity instanceof Turret owner) {
+            if (target instanceof PlayerEntity player) {
+                if (owner.getOwner().isPresent() && player.getUuid().equals(owner.getOwner().get()))
+                    return false;
+                return !target.isTeammate(owner);
+            }
+            if (target instanceof Turret turret) {
+                if (owner.getOwner().isPresent()) {
+                    if (turret.getOwner().isPresent()) {
+                        return !owner.getOwner().get().equals(turret.getOwner().get());
+                    } else
+                        return true;
+                }
+                return true;
+            }
+            if (target.getType().getSpawnGroup().isPeaceful()) {
+                return target == owner.getTarget();
+            } else {
+                return Turret.decodeTargets(owner.getTargets()).contains(target.getType());
+            }
         }
         return false;
     }
