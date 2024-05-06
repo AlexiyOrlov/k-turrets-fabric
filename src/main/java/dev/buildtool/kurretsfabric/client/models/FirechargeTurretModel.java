@@ -1,6 +1,6 @@
 package dev.buildtool.kurretsfabric.client.models;
 
-import dev.buildtool.kurretsfabric.turrets.FirechargeTurret;
+import dev.buildtool.kurretsfabric.turrets.FireChargeTurret;
 import dev.buildtool.satako.Functions;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 
 // Made with Blockbench 4.6.5
 // Exported for Minecraft version 1.17+ for Yarn
-public class FirechargeTurretModel extends EntityModel<FirechargeTurret> {
+public class FirechargeTurretModel extends EntityModel<FireChargeTurret> {
     private final ModelPart rotating;
     private final ModelPart bone;
 
@@ -57,7 +57,7 @@ public class FirechargeTurretModel extends EntityModel<FirechargeTurret> {
     }
 
     @Override
-    public void setAngles(FirechargeTurret entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setAngles(FireChargeTurret entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         rotating.yaw = Functions.getDefaultHeadYaw(netHeadYaw);
         rotating.pitch = Functions.getDefaultHeadPitch(headPitch);
     }

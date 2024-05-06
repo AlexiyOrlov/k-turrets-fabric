@@ -1,7 +1,7 @@
 package dev.buildtool.kurretsfabric.screenhandlers;
 
 import dev.buildtool.kurretsfabric.KTurrets;
-import dev.buildtool.kurretsfabric.turrets.FirechargeTurret;
+import dev.buildtool.kurretsfabric.turrets.FireChargeTurret;
 import dev.buildtool.satako.gui.BetterScreenHandler;
 import dev.buildtool.satako.gui.BetterSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +12,7 @@ import net.minecraft.network.PacketByteBuf;
 public class FireChargeTurretScreenHandler extends BetterScreenHandler {
     public FireChargeTurretScreenHandler(int syncId, PlayerInventory inventory, PacketByteBuf byteBuf) {
         super(KTurrets.FIRE_CHARGE_TURRET_HANDLER, syncId);
-        FirechargeTurret firechargeTurret = (FirechargeTurret) inventory.player.world.getEntityById(byteBuf.readInt());
+        FireChargeTurret firechargeTurret = (FireChargeTurret) inventory.player.world.getEntityById(byteBuf.readInt());
         int index = 0;
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 9; k++) {

@@ -95,7 +95,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
     public static EntityType<Bullet> BULLET;
     public static EntityType<Cobblestone> COBBLESTONE;
     public static EntityType<CobbleTurret> COBBLE_TURRET;
-    public static EntityType<FirechargeTurret> FIRE_CHARGE_TURRET;
+    public static EntityType<FireChargeTurret> FIRE_CHARGE_TURRET;
     public static EntityType<GaussBullet> GAUSS_BULLET;
     public static EntityType<GaussTurret> GAUSS_TURRET;
     public static EntityType<ArrowDrone> ARROW_DRONE;
@@ -209,7 +209,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
         FabricDefaultAttributeRegistry.register(COBBLE_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.cobbleTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.cobbleTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.cobbleTurretHealth()));
 
         Identifier firechargeTurret = new Identifier(ID, "fireball_turret");
-        FIRE_CHARGE_TURRET = Registry.register(Registry.ENTITY_TYPE, firechargeTurret, new FabricEntityType<>(FirechargeTurret::new, SpawnGroup.MISC, true, true, true, false, ImmutableSet.of(), EntityDimensions.fixed(0.8f, 0.7f), 5, 3, false));
+        FIRE_CHARGE_TURRET = Registry.register(Registry.ENTITY_TYPE, firechargeTurret, new FabricEntityType<>(FireChargeTurret::new, SpawnGroup.MISC, true, true, true, false, ImmutableSet.of(), EntityDimensions.fixed(0.8f, 0.7f), 5, 3, false));
         FabricDefaultAttributeRegistry.register(FIRE_CHARGE_TURRET, Turret.createDefaultAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, CONFIGURATION.fireChargeTurretRange()).add(EntityAttributes.GENERIC_ARMOR, CONFIGURATION.fireChargeTurretArmor()).add(EntityAttributes.GENERIC_MAX_HEALTH, CONFIGURATION.fireChargeTurretHealth()));
         FIRE_CHARGE_TURRET_HANDLER = Registry.register(Registry.SCREEN_HANDLER, firechargeTurret, new ExtendedScreenHandlerType<>(FireChargeTurretScreenHandler::new));
 

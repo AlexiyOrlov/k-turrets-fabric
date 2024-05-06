@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class FirechargeTurret extends Turret {
+public class FireChargeTurret extends Turret {
     public DefaultInventory ammo = new DefaultInventory(27) {
         @Override
         public boolean isValid(int slot, ItemStack stack) {
@@ -34,7 +34,7 @@ public class FirechargeTurret extends Turret {
         }
     };
 
-    public FirechargeTurret(EntityType<? extends MobEntity> entityType, World world) {
+    public FireChargeTurret(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
     }
 

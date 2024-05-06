@@ -240,7 +240,7 @@ public class TurretOptionsScreen extends BetterScreen {
             addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.brickDamage() + "/" + KTurrets.CONFIGURATION.netherBrickDamage())));
         } else if (turret instanceof BulletTurret || turret instanceof BulletDrone) {
             addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.ironBulletDamage() + "/" + KTurrets.CONFIGURATION.goldBulletDamage())));
-        } else if (turret instanceof FirechargeTurret || turret instanceof FireballDrone) {
+        } else if (turret instanceof FireChargeTurret || turret instanceof FireballDrone) {
             addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.fireChargeTurretDamage() + "")));
         } else if (turret instanceof CobbleTurret || turret instanceof CobbleDrone) {
             addDrawableChild(new Label(centerX, 240, Text.translatable(KTurrets.ID + ".damage").append(": ").append(KTurrets.CONFIGURATION.cobbleTurretDamage() + "")));
