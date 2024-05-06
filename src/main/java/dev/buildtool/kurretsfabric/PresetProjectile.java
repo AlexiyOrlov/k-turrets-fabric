@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public abstract class PresetProjectile extends ExplosiveProjectileEntity {
     protected Turret turret;
-    protected int movementMultiplier = 50;
+    protected static double movementMultiplier = KTurrets.CONFIGURATION.projectileSpeed();
     private static final TrackedData<Integer> DAMAGE = DataTracker.registerData(PresetProjectile.class, TrackedDataHandlerRegistry.INTEGER);
 
     protected PresetProjectile(EntityType<? extends ExplosiveProjectileEntity> entityType, World world) {
@@ -27,6 +27,9 @@ public abstract class PresetProjectile extends ExplosiveProjectileEntity {
         super(type, owner, directionX, directionY, directionZ, world);
         setPos(owner.getX(), owner.getEyeY(), owner.getZ());
         turret = owner;
+        powerX *= movementMultiplier;
+        powerY *= movementMultiplier;
+        powerZ *= movementMultiplier;
     }
 
     @Override
@@ -109,11 +112,5 @@ public abstract class PresetProjectile extends ExplosiveProjectileEntity {
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         setDamage(nbt.getInt("Damage"));
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        setVelocity(getVelocity().add(this.powerX * movementMultiplier, this.powerY * movementMultiplier, this.powerZ * movementMultiplier));
     }
 }
