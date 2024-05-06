@@ -12,8 +12,11 @@ public class AttackTask extends ActiveTargetGoal<LivingEntity> {
 
     public AttackTask(Turret turret) {
         super(turret, LivingEntity.class, 0, true, true, livingEntity -> {
-            if (turret.isProtectingFromPlayers() && livingEntity instanceof PlayerEntity)
-                return turret.alienPlayers.test(livingEntity);
+            if (livingEntity instanceof PlayerEntity player) {
+                if (turret.isProtectingFromPlayers())
+                    return turret.alienPlayers.test(player);
+                else return false;
+            }
             return Turret.decodeTargets(turret.getTargets()).contains(livingEntity.getType());
         });
         this.turret = turret;

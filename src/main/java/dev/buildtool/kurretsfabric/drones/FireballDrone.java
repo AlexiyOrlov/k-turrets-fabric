@@ -97,8 +97,11 @@ public class FireballDrone extends Drone {
         super.initGoals();
         goalSelector.add(5, new ProjectileAttackGoal(this, 1, KTurrets.CONFIGURATION.fireChargeTurretDelay(), (float) getRange()));
         targetSelector.add(5, new ActiveTargetGoal<>(this, LivingEntity.class, 0, true, true, livingEntity -> {
-            if (isProtectingFromPlayers() && livingEntity instanceof PlayerEntity)
-                return alienPlayers.test(livingEntity);
+            if (livingEntity instanceof PlayerEntity player) {
+                if (isProtectingFromPlayers())
+                    return alienPlayers.test(player);
+                else return false;
+            }
             else {
                 return !livingEntity.isFireImmune() && decodeTargets(getTargets()).contains(livingEntity.getType());
             }
