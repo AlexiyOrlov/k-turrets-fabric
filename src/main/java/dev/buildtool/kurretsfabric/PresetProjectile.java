@@ -6,6 +6,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
@@ -44,17 +45,30 @@ public abstract class PresetProjectile extends ExplosiveProjectileEntity {
     }
 
     @Override
-    protected boolean canHit(Entity entity) {
-        Entity owner = getOwner();
-        if (turret != null && entity.getType().getSpawnGroup().isPeaceful() && Turret.decodeTargets(turret.getTargets()).contains(entity.getType())) {
-            return super.canHit(entity);
-        }
-        else if (owner == null || !owner.isTeammate(entity) && !entity.getType().getSpawnGroup().isPeaceful()) {
-            {
-                return super.canHit(entity);
+    protected boolean canHit(Entity target) {
+        Turret owner = (Turret) getOwner();
+        if (owner != null) {
+            if (target instanceof PlayerEntity player) {
+                if (owner.getOwner().isPresent() && player.getUuid().equals(owner.getOwner().get()))
+                    return false;
+                return !target.isTeammate(owner);
+            }
+            if (target instanceof Turret turret) {
+                if (owner.getOwner().isPresent()) {
+                    if (turret.getOwner().isPresent()) {
+                        return !owner.getOwner().get().equals(turret.getOwner().get());
+                    } else
+                        return true;
+                }
+                return true;
+            }
+            if (target.getType().getSpawnGroup().isPeaceful()) {
+                return target == owner.getTarget();
+            } else {
+                return Turret.decodeTargets(owner.getTargets()).contains(target.getType());
             }
         }
-        return true;
+        return false;
     }
 
     protected abstract DamageSource getDamageSource();
