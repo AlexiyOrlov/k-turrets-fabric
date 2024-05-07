@@ -8,7 +8,7 @@ import io.wispforest.owo.config.annotation.RangeConstraint;
 public class Configuration {
     @RangeConstraint(min = 1, max = 100)
     public int arrowTurretDamage = 6;
-    @RangeConstraint(min = 10, max = 60)
+    @RangeConstraint(min = 1, max = 60)
     public int arrowTurretDelay = 20;
     @RangeConstraint(min = 8, max = 100)
     public double arrowTurretRange = 32;
@@ -16,7 +16,7 @@ public class Configuration {
     public int arrowTurretArmor = 3;
     @RangeConstraint(min = 10, max = 500)
     public int arrowTurretHealth = 60;
-    @RangeConstraint(min = 10, max = 60)
+    @RangeConstraint(min = 1, max = 60)
     public int brickTurretDelay = 20;
     @RangeConstraint(min = 1, max = 100)
     public int brickDamage = 9;
@@ -32,7 +32,7 @@ public class Configuration {
     public int goldBulletDamage = 7;
     @RangeConstraint(min = 1, max = 100)
     public int ironBulletDamage = 8;
-    @RangeConstraint(min = 10, max = 60)
+    @RangeConstraint(min = 1, max = 60)
     public int bulletTurretDelay = 20;
     @RangeConstraint(min = 10, max = 500)
     public int bulletTurretHealth = 60;
@@ -40,7 +40,7 @@ public class Configuration {
     public int bulletTurretArmor = 3;
     @RangeConstraint(min = 8, max = 100)
     public int bulletTurretRange = 32;
-    @RangeConstraint(min = 10, max = 60)
+    @RangeConstraint(min = 1, max = 60)
     public int cobbleTurretDelay = 20;
     @RangeConstraint(min = 10, max = 500)
     public int cobbleTurretHealth = 60;
@@ -50,7 +50,7 @@ public class Configuration {
     public int cobbleTurretRange = 32;
     @RangeConstraint(min = 1, max = 100)
     public int cobbleTurretDamage = 3;
-    @RangeConstraint(min = 10, max = 60)
+    @RangeConstraint(min = 1, max = 60)
     public int fireChargeTurretDelay = 20;
     @RangeConstraint(min = 10, max = 500)
     public int fireChargeTurretHealth = 60;
@@ -60,7 +60,7 @@ public class Configuration {
     public int fireChargeTurretRange = 32;
     @RangeConstraint(min = 1, max = 100)
     public int fireChargeTurretDamage = 6;
-    @RangeConstraint(min = 10, max = 60)
+    @RangeConstraint(min = 1, max = 60)
     public int gaussTurretDelay = 20;
     @RangeConstraint(min = 10, max = 500)
     public int gaussTurretHealth = 60;
