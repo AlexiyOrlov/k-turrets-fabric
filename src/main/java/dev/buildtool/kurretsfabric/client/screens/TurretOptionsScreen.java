@@ -296,11 +296,7 @@ public class TurretOptionsScreen extends BetterScreen {
             suggestions.clear();
             String text = addEntityField.getText();
             if (!text.isEmpty()) {
-                List<Identifier> entityTypes;
-                if (text.contains(":"))
-                    entityTypes = new ArrayList<>(Registry.ENTITY_TYPE.getIds().stream().filter(resourceLocation -> resourceLocation.toString().contains(text)).toList());
-                else
-                    entityTypes = new ArrayList<>(Registry.ENTITY_TYPE.getIds().stream().filter(resourceLocation -> resourceLocation.getNamespace().contains(text)).toList());
+                List<Identifier> entityTypes = new ArrayList<>(Registry.ENTITY_TYPE.getIds().stream().filter(entityTypeRegistryKey -> entityTypeRegistryKey.toString().contains(text)).toList());
                 int yOffset = 20;
                 entityTypes.removeAll(targets.stream().map(Registry.ENTITY_TYPE::getId).toList());
                 for (Identifier entityType : entityTypes.subList(0, Math.min(entityTypes.size(), 14))) {
