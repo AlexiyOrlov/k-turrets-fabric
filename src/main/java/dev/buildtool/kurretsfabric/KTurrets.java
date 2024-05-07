@@ -38,7 +38,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
@@ -266,7 +265,6 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
         ServerPlayNetworking.registerGlobalReceiver(dismantle, (server, player, handler, buf, responseSender) -> {
             Entity entity = player.world.getEntityById(buf.readInt());
             if (entity instanceof Turret turret) {
-                turret.getContainedItems().forEach(defaultInventory -> ItemScatterer.spawn(player.world, turret.getBlockPos(), defaultInventory));
                 turret.discard();
                 ItemStack itemStack = new ItemStack(turret.getSpawnItem());
                 itemStack.getOrCreateNbt().put("Contained", turret.writeNbt(new NbtCompound()));
