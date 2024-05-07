@@ -4,13 +4,21 @@ import dev.buildtool.kurretsfabric.KTurrets;
 import dev.buildtool.kurretsfabric.client.models.*;
 import dev.buildtool.kurretsfabric.client.screens.*;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 
 public class KTurretsClient implements ClientModInitializer {
+
+    public static KeyBinding showDrones;
+    public static boolean noDronesNearby;
+
     @Override
     public void onInitializeClient() {
         HandledScreens.register(KTurrets.ARROW_TURRET_HANDLER, ArrowTurretScreen::new);
@@ -85,5 +93,13 @@ public class KTurretsClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(KTurrets.GAUSS_BULLET, GaussBulletRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(GaussBulletRenderer.LAYER, GaussBulletModel::getTexturedModelData);
+
+        showDrones = KeyBindingHelper.registerKeyBinding(new KeyBinding("k_turrets.show.drones", GLFW.GLFW_KEY_K, "K-Turrets"));
+
+        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
+            if (showDrones.isPressed()) {
+
+            }
+        });
     }
 }

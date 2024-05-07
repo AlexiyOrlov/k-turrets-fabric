@@ -4,7 +4,8 @@
   "package": "dev.buildtool.kurretsfabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "EntityRendererMixin"
+    "EntityRendererMixin",
+    "WorldRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
