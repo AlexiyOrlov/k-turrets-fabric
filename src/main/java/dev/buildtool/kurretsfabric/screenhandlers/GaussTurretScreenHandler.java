@@ -16,7 +16,12 @@ public class GaussTurretScreenHandler extends BetterScreenHandler {
         int ind = 0;
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 9; k++) {
-                addSlot(new BetterSlot(gaussTurret.ammo, ind++, k * 18, j * 18));
+                addSlot(new BetterSlot(gaussTurret.ammo, ind++, k * 18, j * 18) {
+                    @Override
+                    public boolean canInsert(ItemStack stack) {
+                        return stack.isOf(KTurrets.gaussBullet);
+                    }
+                });
             }
         }
 

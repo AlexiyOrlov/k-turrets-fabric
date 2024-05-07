@@ -17,7 +17,12 @@ public class BrickTurretScreenHandler extends BetterScreenHandler {
         int index = 0;
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 9; k++) {
-                addSlot(new BetterSlot(brickTurret.bricks, index++, k * 18, j * 18));
+                addSlot(new BetterSlot(brickTurret.bricks, index++, k * 18, j * 18) {
+                    @Override
+                    public boolean canInsert(ItemStack stack) {
+                        return stack.isOf(Items.BRICK) || stack.isOf(Items.NETHER_BRICK);
+                    }
+                });
             }
         }
 

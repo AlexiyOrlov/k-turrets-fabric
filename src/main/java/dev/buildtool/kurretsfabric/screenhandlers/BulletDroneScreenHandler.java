@@ -17,7 +17,12 @@ public class BulletDroneScreenHandler extends BetterScreenHandler {
         int index = 0;
         for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 9; k++) {
-                addSlot(new BetterSlot(bulletDrone.ammo, index++, k * 18, j * 18));
+                addSlot(new BetterSlot(bulletDrone.ammo, index++, k * 18, j * 18) {
+                    @Override
+                    public boolean canInsert(ItemStack stack) {
+                        return stack.isOf(Items.GOLD_NUGGET) || stack.isOf(Items.IRON_NUGGET);
+                    }
+                });
             }
         }
         addPlayerInventory(0, 4 * 18, playerInventory);

@@ -20,7 +20,12 @@ public class ArrowDroneScreenHandler extends BetterScreenHandler {
         int slot = 0;
         for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 9; k++) {
-                addSlot(new BetterSlot(arrowDrone.ammo, slot++, k * 18, j * 18 + 18 * 2));
+                addSlot(new BetterSlot(arrowDrone.ammo, slot++, k * 18, j * 18 + 18 * 2) {
+                    @Override
+                    public boolean canInsert(ItemStack stack) {
+                        return stack.getItem() instanceof ArrowItem;
+                    }
+                });
             }
         }
         addPlayerInventory(0, 6 * 18, inventory);
