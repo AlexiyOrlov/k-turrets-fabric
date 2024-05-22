@@ -7,8 +7,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 
-// Made with Blockbench 4.6.5
-// Exported for Minecraft version 1.17+ for Yarn
+@Deprecated
 public class FireballDroneModel extends EntityModel<FireballDrone> {
     private final ModelPart beam;
     private final ModelPart beam2;
