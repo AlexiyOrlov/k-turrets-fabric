@@ -1,3 +1,6 @@
+0.0.18:
+changed fireball turret model;
+
 0.0.17:
 drones can be set to follow, stay, or guard area;
 various fixes;
