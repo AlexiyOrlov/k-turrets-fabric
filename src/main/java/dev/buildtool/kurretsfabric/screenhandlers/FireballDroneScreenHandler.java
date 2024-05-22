@@ -33,9 +33,8 @@ public class FireballDroneScreenHandler extends BetterScreenHandler {
         if (index > 17) {
             if (stack.isOf(KTurrets.explosivePowder) && !insertItem(stack, 0, 18, false))
                 return ItemStack.EMPTY;
-            else if (!insertItem(stack, 18, 54, false)) {
-                return ItemStack.EMPTY;
-            }
+        } else if (!insertItem(stack, 18, 54, false)) {
+            return ItemStack.EMPTY;
         }
         return super.transferSlot(player, index);
     }
