@@ -33,9 +33,8 @@ public class FireChargeTurretScreenHandler extends BetterScreenHandler {
         if (index > 26) {
             if (stack.isOf(KTurrets.explosivePowder) && !insertItem(stack, 0, 27, false))
                 return ItemStack.EMPTY;
-            else if (!insertItem(stack, 27, 63, false)) {
-                return ItemStack.EMPTY;
-            }
+        } else if (!insertItem(stack, 27, 63, false)) {
+            return ItemStack.EMPTY;
         }
         return super.transferSlot(player, index);
     }
