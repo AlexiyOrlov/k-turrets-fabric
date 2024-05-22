@@ -59,6 +59,8 @@
   "k_turrets.range": "Detection range",
   "k_turrets.damage": "Damage",
   "k_turrets.show.drones": "Show drone locations",
+  "k_turrets.refilling.ammo": "Refilling ammo",
+  "k_turrets.not.refilling.ammo": "Not refilling ammo",
 
   "death.attack.k_turrets.bullet": "%1$s was shot by a bullet",
   "death.attack.k_turrets.gauss_bullet": "%1$s was shot by a Gauss bullet",

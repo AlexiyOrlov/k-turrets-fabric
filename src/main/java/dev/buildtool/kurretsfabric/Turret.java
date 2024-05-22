@@ -6,6 +6,8 @@ import dev.buildtool.satako.UniqueList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -33,6 +35,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +51,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
     private static final TrackedData<String> TEAM = DataTracker.registerData(Turret.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData<NbtCompound> IGNORED_PLAYERS = DataTracker.registerData(Turret.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
     private static final TrackedData<String> OWNER_NAME = DataTracker.registerData(Turret.class, TrackedDataHandlerRegistry.STRING);
+    private static final TrackedData<Boolean> REFILL_AMMO = DataTracker.registerData(Turret.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public Turret(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
@@ -109,6 +113,14 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         dataTracker.set(OWNER_NAME, name);
     }
 
+    public void setRefillAmmo(boolean b) {
+        dataTracker.set(REFILL_AMMO, b);
+    }
+
+    public boolean isRefillingAmmo() {
+        return dataTracker.get(REFILL_AMMO);
+    }
+
     public Predicate<LivingEntity> alienPlayers = livingEntity -> {
         if (getOwner().isPresent()) {
             if (livingEntity instanceof PlayerEntity player) {
@@ -144,6 +156,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         dataTracker.startTracking(TEAM, "");
         dataTracker.startTracking(IGNORED_PLAYERS, new NbtCompound());
         dataTracker.startTracking(OWNER_NAME, "");
+        dataTracker.startTracking(REFILL_AMMO, false);
     }
 
     @Override
@@ -162,6 +175,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         nbt.putString("Team", getAutomaticTeam());
         nbt.put("Ignored players", getIgnoredPlayers());
         nbt.putString("Owner name", getOwnerName());
+        nbt.putBoolean("Refill ammo", isRefillingAmmo());
         return super.writeNbt(nbt);
     }
 
@@ -177,6 +191,7 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
         setIgnoredPlayers(nbt.getCompound("Ignored players"));
         if (nbt.contains("Owner name"))
             setOwnerName(nbt.getString("Owner name"));
+        setRefillAmmo(nbt.getBoolean("Refill ammo"));
     }
 
     public static NbtCompound encodeTargets(List<EntityType<?>> entityTypes) {
@@ -460,5 +475,27 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
 
     protected float restoreHealth() {
         return getMaxHealth() / 6;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (isRefillingAmmo() && !world.isClient) {
+            two:
+            for (Direction direction : Direction.values()) {
+                BlockEntity sideEntity = world.getBlockEntity(getBlockPos().offset(direction));
+                if (sideEntity instanceof Inventory inventory) {
+                    for (int i = 0; i < inventory.size(); ++i) {
+                        if (inventory.getStack(i).isEmpty()) continue;
+                        ItemStack itemStack = inventory.getStack(i).copy();
+                        ItemStack itemStack2 = HopperBlockEntity.transfer(inventory, this, inventory.removeStack(i, 1), direction);
+                        if (itemStack2.isEmpty()) {
+                            break two;
+                        }
+                        inventory.setStack(i, itemStack);
+                    }
+                }
+            }
+        }
     }
 }

@@ -123,6 +123,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
     public static Identifier togglePlayerProtection = new Identifier(ID, "toggle_player_protection");
     public static Identifier toggleFollow = new Identifier(ID, "toggle_follow");
     public static Identifier targets = new Identifier(ID, "targets");
+    public static Identifier setRefillAmmo = new Identifier(ID, "refill_ammo");
 
     public static Identifier setGuardArea = new Identifier(ID, "guard_area");
     public static SoundEvent BULLET_FIRE, GAUSS_BULLET_FIRE, COBBLE_FIRE, DRONE_PROPELLER;
@@ -315,6 +316,12 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
             Entity entity = player.world.getEntityById(buf.readInt());
             if (entity instanceof Drone drone) {
                 drone.setGuardingArea(buf.readBoolean());
+            }
+        });
+        ServerPlayNetworking.registerGlobalReceiver(setRefillAmmo, (server, player, handler, buf, responseSender) -> {
+            Entity entity = player.world.getEntityById(buf.readInt());
+            if (entity instanceof Turret turret) {
+                turret.setRefillAmmo(buf.readBoolean());
             }
         });
     }

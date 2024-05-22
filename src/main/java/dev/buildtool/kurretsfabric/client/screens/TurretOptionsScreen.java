@@ -39,8 +39,7 @@ public class TurretOptionsScreen extends BetterScreen {
     private List<Label> suggestions;
     private BetterButton addTarget, dismantle, clearTargets, resetList, mobilitySwitch, protectionFromPlayers, claimTurret,
             followSwitch;
-    private boolean renderLabels = true;
-
+    private SwitchButton inventoryRefillSwitch;
     public TurretOptionsScreen(Turret turret) {
         super(Text.translatable("k_turrets.targets"));
         this.turret = turret;
@@ -126,8 +125,15 @@ public class TurretOptionsScreen extends BetterScreen {
             ClientPlayNetworking.send(KTurrets.togglePlayerProtection, packetByteBuf);
             turret.setProtectingFromPlayers(!turret.isProtectingFromPlayers());
         }));
+        inventoryRefillSwitch = addDrawableChild(new SwitchButton(centerX, 120, Text.translatable("k_turrets.refilling.ammo"), Text.translatable("k_turrets.not.refilling.ammo"), turret.isRefillingAmmo(), button -> {
+            PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
+            packetByteBuf.writeInt(turret.getId());
+            packetByteBuf.writeBoolean(!turret.isRefillingAmmo());
+            ClientPlayNetworking.send(KTurrets.setRefillAmmo, packetByteBuf);
+            turret.setRefillAmmo(!turret.isRefillingAmmo());
+        }));
         if (turret.getOwner().isEmpty()) {
-            claimTurret = addDrawableChild(new BetterButton(centerX, 120, Text.translatable(turret instanceof Drone ? "k_turrets.claim.drone" : "k_turrets.claim.turret"), button -> {
+            claimTurret = addDrawableChild(new BetterButton(centerX, 140, Text.translatable(turret instanceof Drone ? "k_turrets.claim.drone" : "k_turrets.claim.turret"), button -> {
                 PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
                 packetByteBuf.writeInt(turret.getId());
                 packetByteBuf.writeUuid(client.player.getUuid());
@@ -136,7 +142,7 @@ public class TurretOptionsScreen extends BetterScreen {
                 client.player.closeScreen();
             }));
         } else if (turret instanceof Drone drone) {
-            DropDownButton dropDownButton = new DropDownButton(centerX, 120, this, Text.literal("K-Turrets"));
+            DropDownButton dropDownButton = new DropDownButton(centerX, 140, this, Text.literal("K-Turrets"));
             LinkedHashMap<Text, ButtonWidget.PressAction> linkedHashMap = new LinkedHashMap<>(3);
             RadioButton follow = new RadioButton(centerX, 140, Text.translatable("k_turrets.following.owner"));
             linkedHashMap.put(follow.getMessage(), p_93751_ -> {
@@ -321,7 +327,6 @@ public class TurretOptionsScreen extends BetterScreen {
                     this.mobilitySwitch.setHidden(true);
                     this.protectionFromPlayers.setHidden(true);
                     this.resetList.setHidden(true);
-                    renderLabels = false;
                 } else {
                     showButtonsAndHints();
                 }
@@ -343,7 +348,6 @@ public class TurretOptionsScreen extends BetterScreen {
         this.mobilitySwitch.setHidden(false);
         this.protectionFromPlayers.setHidden(false);
         this.resetList.setHidden(false);
-        renderLabels = true;
     }
 
 
