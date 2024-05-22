@@ -443,8 +443,10 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
                 return ActionResult.PASS;
             }
         } else if (world.isClient) {
-            if (this instanceof Drone) {
-                if (!getOwnerName().isEmpty())
+            if (!getOwnerName().isEmpty()) {
+                if (this instanceof Drone) {
+                    player.sendMessage(Text.translatable("k_turrets.drone.belongs.to").append(" " + getOwnerName()), true);
+                } else
                     player.sendMessage(Text.translatable("k_turrets.turret.belongs.to").append(" " + getOwnerName()), true);
             }
         }
