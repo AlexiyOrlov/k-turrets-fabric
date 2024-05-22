@@ -47,8 +47,9 @@ public class ContainerItem extends SpawnEggItem {
             return ActionResult.SUCCESS;
         }
 
+        PlayerEntity player = context.getPlayer();
+
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
-            PlayerEntity player = context.getPlayer();
             UnitLimits unitLimits = KTurrets.UNIT_LIMITS.get(player);
             if (unit == Unit.TURRET) {
                 if (unitLimits.getTurretCount() >= KTurrets.CONFIGURATION.turretLimitPerPlayer()) {
@@ -75,6 +76,9 @@ public class ContainerItem extends SpawnEggItem {
             if (itemStack.hasNbt()) {
                 entity.readNbt(itemStack.getSubNbt("Contained"));
                 entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
+            } else if (KTurrets.CONFIGURATION.setOwnerAuto()) {
+                Turret turret = (Turret) entity;
+                turret.setOwner(player.getUuid());
             }
             itemStack.decrement(1);
         }

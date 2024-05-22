@@ -76,4 +76,5 @@ public class Configuration {
     public int droneLimitPerPlayer = 30;
     @RangeConstraint(min = 0.1, max = 50)
     public int projectileSpeed = 50;
+    public boolean setOwnerAuto = true;
 }
