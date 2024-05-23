@@ -2,6 +2,7 @@
 changed fireball turret model;
 implemented automatic ammo refill;
 fixed item movement in fireball drone and turret;
+implemented target filter copier;
 
 0.0.17:
 drones can be set to follow, stay, or guard area;
