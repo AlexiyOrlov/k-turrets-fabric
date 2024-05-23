@@ -18,6 +18,7 @@
   "item.k_turrets.firecharge_drone_item": "Fireball Drone",
   "item.k_turrets.titanium_ingot": "Titanium Ingot",
   "item.k_turrets.raw_titanium": "Raw Titanium",
+  "item.k_turrets.wrench": "Wrench",
 
   "k_turrets.targets": "Targets:",
   "k_turrets.added": "Added to targets",
@@ -61,6 +62,10 @@
   "k_turrets.show.drones": "Show drone locations",
   "k_turrets.refilling.ammo": "Refilling ammo",
   "k_turrets.not.refilling.ammo": "Not refilling ammo",
+  "k_turrets.shift.hint": "Shift + right click to store targets",
+  "k_turrets.click.hint": "Right click to copy targets",
+  "k_turrets.filters.stored": "Target filters stored",
+  "k_turrets.filters.copied": "Target filters copied",
 
   "death.attack.k_turrets.bullet": "%1$s was shot by a bullet",
   "death.attack.k_turrets.gauss_bullet": "%1$s was shot by a Gauss bullet",

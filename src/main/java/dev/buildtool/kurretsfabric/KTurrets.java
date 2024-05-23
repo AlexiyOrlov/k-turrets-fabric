@@ -54,6 +54,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
     public static final dev.buildtool.kurretsfabric.Config CONFIGURATION = dev.buildtool.kurretsfabric.Config.createAndLoad();
     public static Item gaussBullet;
     public static Item explosivePowder;
+    public static Item targetCopier;
 
     static Item rawTitanium, titaniumIngot, arrowTurret, brickTurret, bulletTurret,
             cobbleTurret, fireballTurret, gaussTurret, arrowDrone, brickDrone, bulletDrone,
@@ -81,6 +82,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
             itemStacks.add(new ItemStack(gaussDrone));
             itemStacks.add(new ItemStack(gaussBullet));
             itemStacks.add(new ItemStack(explosivePowder));
+            itemStacks.add(new ItemStack(targetCopier));
         }).icon(() -> new ItemStack(gaussBullet)).build();
     }
 
@@ -163,6 +165,7 @@ public class KTurrets implements ModInitializer, EntityComponentInitializer {
         titaniumIngot = Registry.register(Registry.ITEM, new Identifier(ID, "titanium_ingot"), new Item(defaults()));
         gaussBullet = Registry.register(Registry.ITEM, new Identifier(ID, "gauss_bullet"), new Item(defaults()));
         explosivePowder = Registry.register(Registry.ITEM, new Identifier(ID, "explosive_powder"), new Item(defaults()));
+        targetCopier = Registry.register(Registry.ITEM, new Identifier(ID, "wrench"), new TargetCopier(defaults().maxCount(1)));
 
         arrowTurret = Registry.register(Registry.ITEM, new Identifier(ID, "arrow_turret_item"), new ContainerItem(ARROW_TURRET, 0, 0, defaults(), ContainerItem.Unit.TURRET));
         arrowDrone = Registry.register(Registry.ITEM, new Identifier(ID, "arrow_drone_item"), new ContainerItem(ARROW_DRONE, 0, 0, defaults(), ContainerItem.Unit.DRONE));

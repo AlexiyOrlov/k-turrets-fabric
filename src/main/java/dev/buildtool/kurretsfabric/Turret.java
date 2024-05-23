@@ -450,6 +450,17 @@ public abstract class Turret extends MobEntity implements RangedAttackMob, Exten
             }
             if (getOwnerName().isEmpty())
                 setOwnerName(player.getName().getString());
+            if (itemInHand.getItem() == KTurrets.targetCopier) {
+                if (player.isSneaking()) {
+                    NbtCompound nbtCompound = itemInHand.getOrCreateNbt();
+                    nbtCompound.put("Targets", getTargets());
+                    player.sendMessage(Text.translatable("k_turrets.filters.stored"), true);
+                } else if (itemInHand.hasNbt()) {
+                    setTargets(itemInHand.getNbt().getCompound("Targets"));
+                    player.sendMessage(Text.translatable("k_turrets.filters.copied"), true);
+                }
+                return ActionResult.SUCCESS;
+            }
             if (world.isClient && player.isSneaking()) {
                 openConfigurationScreen();
                 return ActionResult.PASS;
