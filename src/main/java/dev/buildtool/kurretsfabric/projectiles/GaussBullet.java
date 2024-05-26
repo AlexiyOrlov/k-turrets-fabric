@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 
 public class GaussBullet extends PresetProjectile {
 
-    {
-        movementMultiplier = 150;
+    static {
+        movementMultiplier = movementMultiplier * 3;
     }
 
     public GaussBullet(EntityType<? extends ExplosiveProjectileEntity> entityType, World world) {
