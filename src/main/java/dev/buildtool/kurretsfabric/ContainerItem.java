@@ -76,6 +76,7 @@ public class ContainerItem extends SpawnEggItem {
             if (itemStack.hasNbt()) {
                 entity.readNbt(itemStack.getSubNbt("Contained"));
                 entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
+                entity.setPosition(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
             } else if (KTurrets.CONFIGURATION.setOwnerAuto()) {
                 Turret turret = (Turret) entity;
                 turret.setOwner(player.getUuid());
