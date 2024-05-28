@@ -40,6 +40,8 @@ public class TurretOptionsScreen extends BetterScreen {
     private BetterButton addTarget, dismantle, clearTargets, resetList, mobilitySwitch, protectionFromPlayers, claimTurret,
             followSwitch;
     private SwitchButton inventoryRefillSwitch;
+    private DropDownButton dropDownButton;
+
     public TurretOptionsScreen(Turret turret) {
         super(Text.translatable("k_turrets.targets"));
         this.turret = turret;
@@ -142,7 +144,7 @@ public class TurretOptionsScreen extends BetterScreen {
                 client.player.closeScreen();
             }));
         } else if (turret instanceof Drone drone) {
-            DropDownButton dropDownButton = new DropDownButton(centerX, 140, this, Text.literal("K-Turrets"));
+            dropDownButton = new DropDownButton(centerX, 140, this, Text.literal("K-Turrets"));
             LinkedHashMap<Text, ButtonWidget.PressAction> linkedHashMap = new LinkedHashMap<>(3);
             RadioButton follow = new RadioButton(centerX, 140, Text.translatable("k_turrets.following.owner"));
             linkedHashMap.put(follow.getMessage(), p_93751_ -> {
@@ -327,6 +329,9 @@ public class TurretOptionsScreen extends BetterScreen {
                     this.mobilitySwitch.setHidden(true);
                     this.protectionFromPlayers.setHidden(true);
                     this.resetList.setHidden(true);
+                    inventoryRefillSwitch.setHidden(true);
+                    if (dropDownButton != null)
+                        dropDownButton.setHidden(true);
                 } else {
                     showButtonsAndHints();
                 }
@@ -348,6 +353,9 @@ public class TurretOptionsScreen extends BetterScreen {
         this.mobilitySwitch.setHidden(false);
         this.protectionFromPlayers.setHidden(false);
         this.resetList.setHidden(false);
+        inventoryRefillSwitch.setHidden(false);
+        if (dropDownButton != null)
+            dropDownButton.setHidden(false);
     }
 
 
