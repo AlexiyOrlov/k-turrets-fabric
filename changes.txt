@@ -1,3 +1,6 @@
+0.0.20:
+fixed button visibility when showing taarget suggestion list;
+
 0.0.19:
 fixed gauss bullet speed;
 
